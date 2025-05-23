@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, XCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import Button from './ui/Button';
-import { supabase } from '../lib/supabase';
 
 const Contact: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -59,18 +60,14 @@ const Contact: React.FC = () => {
     setSubmitStatus('idle');
     
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert([
-          {
-            name: formData.name.trim(),
-            email: formData.email.trim(),
-            subject: formData.subject.trim(),
-            message: formData.message.trim(),
-          }
-        ]);
+      if (!formRef.current) return;
       
-      if (error) throw error;
+      await emailjs.sendForm(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        formRef.current,
+        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+      );
       
       setSubmitStatus('success');
       setFormData({
@@ -209,7 +206,7 @@ const Contact: React.FC = () => {
                 </div>
               )}
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
