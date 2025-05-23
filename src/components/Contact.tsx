@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, XCircle } from 'lucide-react';
 import Button from './ui/Button';
 
 const Contact: React.FC = () => {
@@ -12,32 +12,73 @@ const Contact: React.FC = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Reset form after success
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+      
+      // Reset success message after 5 seconds
       setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-        });
         setSubmitStatus('idle');
-      }, 3000);
-    }, 1500);
+      }, 5000);
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -52,10 +93,10 @@ const Contact: React.FC = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
           <div className="lg:col-span-1">
-            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg shadow-sm h-full">
+            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg h-full transform hover:scale-[1.02] transition-transform">
               <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Contact Information</h3>
               
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div className="flex items-start">
                   <div className="mr-4">
                     <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
@@ -64,7 +105,10 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Email</h4>
-                    <a href="mailto:john.doe@example.com" className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <a 
+                      href="mailto:john.doe@example.com" 
+                      className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
                       john.doe@example.com
                     </a>
                   </div>
@@ -78,7 +122,10 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Phone</h4>
-                    <a href="tel:+1234567890" className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <a 
+                      href="tel:+1234567890" 
+                      className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
                       +1 (234) 567-890
                     </a>
                   </div>
@@ -104,7 +151,7 @@ const Contact: React.FC = () => {
                 <div className="flex space-x-4">
                   <a 
                     href="#" 
-                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all hover:scale-110"
                     aria-label="GitHub"
                   >
                     <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -113,7 +160,7 @@ const Contact: React.FC = () => {
                   </a>
                   <a 
                     href="#" 
-                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all hover:scale-110"
                     aria-label="LinkedIn"
                   >
                     <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -122,7 +169,7 @@ const Contact: React.FC = () => {
                   </a>
                   <a 
                     href="#" 
-                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all hover:scale-110"
                     aria-label="Twitter"
                   >
                     <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -135,21 +182,25 @@ const Contact: React.FC = () => {
           </div>
           
           <div className="lg:col-span-2">
-            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg shadow-sm">
+            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg">
               <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Send Me a Message</h3>
               
-              {submitStatus === 'success' ? (
-                <div className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 p-4 rounded-lg mb-6">
-                  Thank you for your message! I'll get back to you as soon as possible.
+              {submitStatus === 'success' && (
+                <div className="flex items-center bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 p-4 rounded-lg mb-6">
+                  <CheckCircle size={20} className="mr-2 flex-shrink-0" />
+                  <p>Thank you for your message! I'll get back to you as soon as possible.</p>
                 </div>
-              ) : submitStatus === 'error' ? (
-                <div className="bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 p-4 rounded-lg mb-6">
-                  Oops! Something went wrong. Please try again later.
-                </div>
-              ) : null}
+              )}
               
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+              {submitStatus === 'error' && (
+                <div className="flex items-center bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 p-4 rounded-lg mb-6">
+                  <XCircle size={20} className="mr-2 flex-shrink-0" />
+                  <p>Oops! Something went wrong. Please try again later.</p>
+                </div>
+              )}
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Name
@@ -160,9 +211,15 @@ const Contact: React.FC = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                      className={`w-full px-4 py-2 rounded-lg border ${
+                        errors.name 
+                          ? 'border-red-500 dark:border-red-500' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
                     />
+                    {errors.name && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -174,13 +231,19 @@ const Contact: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                      className={`w-full px-4 py-2 rounded-lg border ${
+                        errors.email 
+                          ? 'border-red-500 dark:border-red-500' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
                     />
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                    )}
                   </div>
                 </div>
                 
-                <div className="mb-6">
+                <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Subject
                   </label>
@@ -190,12 +253,18 @@ const Contact: React.FC = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    className={`w-full px-4 py-2 rounded-lg border ${
+                      errors.subject 
+                        ? 'border-red-500 dark:border-red-500' 
+                        : 'border-gray-300 dark:border-gray-600'
+                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
                   />
+                  {errors.subject && (
+                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.subject}</p>
+                  )}
                 </div>
                 
-                <div className="mb-6">
+                <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Message
                   </label>
@@ -205,12 +274,23 @@ const Contact: React.FC = () => {
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    className={`w-full px-4 py-2 rounded-lg border ${
+                      errors.message 
+                        ? 'border-red-500 dark:border-red-500' 
+                        : 'border-gray-300 dark:border-gray-600'
+                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
                   ></textarea>
+                  {errors.message && (
+                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.message}</p>
+                  )}
                 </div>
                 
-                <Button primary type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
+                <Button 
+                  primary 
+                  type="submit" 
+                  disabled={isSubmitting} 
+                  className="w-full sm:w-auto"
+                >
                   {isSubmitting ? (
                     <>
                       <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
