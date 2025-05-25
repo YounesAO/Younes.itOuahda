@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
-            <a href="#home" className="text-2xl font-bold text-blue-400">Portfolio</a>
+            <a href="#home" className="text-2xl font-bold text-blue-400">YounesAO</a>
             <p className="mt-2 text-gray-400 max-w-md">
               Building exceptional digital experiences with clean code and modern technologies.
             </p>
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-col items-center md:items-end">
             <div className="flex space-x-4 mb-4">
               <a
-                href="#"
+                href={import.meta.env.VITE_GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors"
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 <Github size={20} />
               </a>
               <a
-                href="#"
+                href={import.meta.env.VITE_LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors"
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
                 <Linkedin size={20} />
               </a>
               <a
-                href="#"
+                href={import.meta.env.VITE_TWITTER_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors"

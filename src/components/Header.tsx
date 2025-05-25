@@ -45,7 +45,7 @@ const Header: React.FC = () => {
             scrollToSection('home');
           }}
         >
-          Portfolio
+          YounesAO
         </a>
 
         {/* Desktop Navigation */}

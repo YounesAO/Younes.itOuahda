@@ -10,20 +10,15 @@ const About: React.FC = () => {
             About <span className="text-blue-600 dark:text-blue-400">Me</span>
           </h2>
           
-          <div className="prose prose-lg dark:prose-invert max-w-none mb-12">
+          <div className="prose prose-lg text-center dark:prose-invert max-w-none mb-12">
             <p>
-              I'm a passionate software engineer student with a strong foundation in computer science and a love for building
-              innovative solutions. My journey in technology began when I was 15, tinkering with basic HTML and CSS to create 
-              simple websites. That early curiosity has evolved into a dedicated pursuit of software engineering excellence.
+              I'm a curious and driven software engineer, passionate about crafting impactful digital solutions through clean code, smart design, and automation. Whether it's frontend interfaces, backend logic, or deployment pipelines, I enjoy building complete systems that serve real needs.
             </p>
             <p>
-              Currently pursuing my Bachelor's degree in Computer Science, I balance my academic studies with hands-on 
-              projects and continuous self-learning. I believe in the power of clean, efficient code and user-centered design
-              to create impactful digital experiences.
+              My approach blends technical depth with a strong sense of product usability. I'm constantly learning, iterating, and experimenting with new tools and ideas — from modern frameworks to data pipelines, containerization, and cloud-native development.
             </p>
             <p>
-              When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or 
-              mentoring junior developers. I'm always open to new challenges and collaborative opportunities.
+              Outside of coding, I enjoy exploring new tech trends, sharing knowledge, and contributing to solutions that make everyday tasks smarter, faster, and more accessible.
             </p>
           </div>
           
@@ -34,9 +29,9 @@ const About: React.FC = () => {
                   <Code size={24} className="text-blue-600 dark:text-blue-400" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold text-center mb-2 text-gray-900 dark:text-white">Problem Solver</h3>
+              <h3 className="text-xl font-semibold text-center mb-2 text-gray-900 dark:text-white">Creative Coder</h3>
               <p className="text-gray-600 dark:text-gray-400 text-center">
-                I enjoy tackling complex problems and breaking them down into elegant, efficient solutions.
+                I transform ideas into scalable applications using modern web and software technologies.
               </p>
             </div>
             
@@ -46,9 +41,9 @@ const About: React.FC = () => {
                   <Book size={24} className="text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold text-center mb-2 text-gray-900 dark:text-white">Continuous Learner</h3>
+              <h3 className="text-xl font-semibold text-center mb-2 text-gray-900 dark:text-white">Lifelong Learner</h3>
               <p className="text-gray-600 dark:text-gray-400 text-center">
-                Technology evolves rapidly, and I'm committed to staying at the forefront through constant learning.
+                I thrive on discovering new technologies, concepts, and patterns to stay sharp and innovative.
               </p>
             </div>
             
@@ -58,9 +53,9 @@ const About: React.FC = () => {
                   <Coffee size={24} className="text-teal-600 dark:text-teal-400" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold text-center mb-2 text-gray-900 dark:text-white">Detail Oriented</h3>
+              <h3 className="text-xl font-semibold text-center mb-2 text-gray-900 dark:text-white">Tech Optimist</h3>
               <p className="text-gray-600 dark:text-gray-400 text-center">
-                I believe that excellence lies in the details, from code quality to user experience.
+                I believe technology, when used thoughtfully, has the power to simplify lives and unlock potential.
               </p>
             </div>
           </div>

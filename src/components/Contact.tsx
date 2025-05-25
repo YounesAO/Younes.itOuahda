@@ -113,10 +113,10 @@ const Contact: React.FC = () => {
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Email</h4>
                     <a 
-                      href="mailto:john.doe@example.com" 
+                      href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL}`}
                       className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
-                      john.doe@example.com
+                      {import.meta.env.VITE_CONTACT_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -130,10 +130,10 @@ const Contact: React.FC = () => {
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Phone</h4>
                     <a 
-                      href="tel:+1234567890" 
+                      href={`tel:${import.meta.env.VITE_CONTACT_PHONE}`}
                       className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
-                      +1 (234) 567-890
+                      {import.meta.env.VITE_CONTACT_PHONE}
                     </a>
                   </div>
                 </div>
@@ -147,7 +147,7 @@ const Contact: React.FC = () => {
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Location</h4>
                     <p className="text-gray-900 dark:text-white">
-                      San Francisco, CA, USA
+                      {import.meta.env.VITE_CONTACT_LOCATION}
                     </p>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ const Contact: React.FC = () => {
                 <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Follow Me</h4>
                 <div className="flex space-x-4">
                   <a 
-                    href="#" 
+                    href={import.meta.env.VITE_GITHUB_URL}
                     className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all hover:scale-110"
                     aria-label="GitHub"
                   >
@@ -166,7 +166,7 @@ const Contact: React.FC = () => {
                     </svg>
                   </a>
                   <a 
-                    href="#" 
+                    href={import.meta.env.VITE_LINKEDIN_URL}
                     className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all hover:scale-110"
                     aria-label="LinkedIn"
                   >
@@ -175,7 +175,7 @@ const Contact: React.FC = () => {
                     </svg>
                   </a>
                   <a 
-                    href="#" 
+                    href={import.meta.env.VITE_TWITTER_URL}
                     className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all hover:scale-110"
                     aria-label="Twitter"
                   >
