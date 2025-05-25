@@ -11,8 +11,7 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ThemeProvider from './contexts/ThemeContext';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-
+import { SpeedInsights } from '@vercel/speed-insights/react';
 const HomePage = () => (
   <>
     <Header />
