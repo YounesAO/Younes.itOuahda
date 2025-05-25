@@ -37,9 +37,10 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
           </Routes>
-          <SpeedInsights />
         </div>
       </Router>
+      <SpeedInsights />
+
     </ThemeProvider>
   );
 }
