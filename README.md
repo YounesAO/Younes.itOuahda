@@ -35,4 +35,3 @@ This project is licensed under the MIT License.
 
 ---
 
-Feel free to update this README as you add more technologies or features!
