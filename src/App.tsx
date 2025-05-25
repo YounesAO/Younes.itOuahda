@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -11,7 +12,6 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ThemeProvider from './contexts/ThemeContext';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 const HomePage = () => (
   <>
     <Header />
@@ -40,7 +40,6 @@ function App() {
         </div>
       </Router>
       <SpeedInsights />
-
     </ThemeProvider>
   );
 }
