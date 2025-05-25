@@ -11,6 +11,7 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ThemeProvider from './contexts/ThemeContext';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const HomePage = () => (
   <>
@@ -37,6 +38,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
           </Routes>
+          <SpeedInsights />
         </div>
       </Router>
     </ThemeProvider>
