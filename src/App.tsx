@@ -11,6 +11,7 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ThemeProvider from './contexts/ThemeContext';
+import Analytics from './components/Analytics';
 
 const HomePage = () => (
   <>
@@ -32,6 +33,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
+        <Analytics />
         <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
           <Routes>
             <Route path="/" element={<HomePage />} />
