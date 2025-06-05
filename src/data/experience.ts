@@ -12,7 +12,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: 1,
-    title: 'Software & DevOps Intern',
+    title: 'Software Engineer Intern',
     company: 'Assab Vision',
     location: 'France',
     period: 'Jul 2024 - Aug 2024',
@@ -21,9 +21,9 @@ export const experiences: Experience[] = [
       'Developed ERP/CRM modules using Next.js and Tailwind CSS for enhanced user experience',
       'Implemented Sanity CMS integration for content management and dynamic data handling',
       'Deployed applications on VPS with optimized server configurations',
-      'Managed CI/CD pipelines for automated deployments and continuous integration'
+      'Managed CI/CD pipelines for automated deployments via GitHub Actions',
     ],
-    technologies: ['Next.js', 'Tailwind CSS', 'Sanity CMS', 'VPS', 'CI/CD', 'DevOps']
+    technologies: ['Next.js', 'Tailwind CSS', 'Sanity CMS', 'VPS', 'CI/CD', 'github Actions']
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ export const experiences: Experience[] = [
     type: 'internship',
     description: [
       'Built comprehensive car rental platform with Laravel framework and MySQL database',
-      'Optimized database queries and improved application performance by 25%',
+      'Creating RESTful APIs for seamless data interaction',
       'Implemented user authentication and booking management system',
       'Developed responsive frontend interfaces for better user experience'
     ],
