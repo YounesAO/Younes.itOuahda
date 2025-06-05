@@ -280,7 +280,7 @@ export const projects: Project[] = [
     "title": "EduXGame Platform",
     "description": "EduXGame is an innovative educational platform designed to make learning engaging and effective through gamification. The platform transforms traditional education by integrating adaptive learning algorithms, interactive games, and real-time analytics. Key features include personalized learning paths, a comprehensive achievement system, progress tracking dashboards, and detailed analytics for educators. EduXGame aims to foster motivation and deeper knowledge retention for learners of all ages.",
     "image": "https://github.com/aya-elloubab/EduXGame/blob/main/eduXgame-mobile/app/src/main/res/mipmap-hdpi/logo.png?raw=true",
-    "category": "web",
+    "category": "mobile",
     "technologies": [
         "Spring Boot",
         "Android",

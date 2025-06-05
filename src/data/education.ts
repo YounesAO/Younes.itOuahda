@@ -13,7 +13,7 @@ export const education: EducationItem[] = [
     title: 'Engineering Degree in Computer Science (2ITE)',
     organization: 'Ecole Nationale des Sciences Appliquées d\'El Jadida (ENSAJ)',
     period: '2023 - 2026',
-    description: 'Currently pursuing an Engineering Degree in Computer Science with focus on Full-Stack Development and DevOps. Specializing in modern web technologies and business intelligence.',
+    description: 'Currently pursuing an Engineering Degree in Computer Science with focus on Full-Stack Development and DevOps. Specializing in modern web technologies ,Big Data and business intelligence.',
     type: 'education',
   },
   {
@@ -24,7 +24,7 @@ export const education: EducationItem[] = [
     type: 'education',
   },
   {
-    title: 'Software & DevOps Intern',
+    title: 'SSoftware Engineer Intern',
     organization: 'Assab Vision (France)',
     period: 'Jul 2024 - Aug 2024',
     description: 'Developed ERP/CRM modules using Next.js and Tailwind CSS. Implemented Sanity CMS integration and deployed on VPS. Managed CI/CD pipelines for automated deployments.',
