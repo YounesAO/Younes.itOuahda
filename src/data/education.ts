@@ -34,7 +34,7 @@ export const education: EducationItem[] = [
     title: 'Web Developer Intern',
     organization: 'ADMDI (Morocco)',
     period: 'Apr 2023 - Jun 2023',
-    description: 'Built car rental platform with Laravel/MySQL. Optimized database queries, improving performance by 25%.',
+    description: 'Built car rental platform with Laravel/MySQL, Integrated dashboard for tracking business insights',
     type: 'work',
   },
   {
