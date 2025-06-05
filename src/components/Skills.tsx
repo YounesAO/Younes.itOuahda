@@ -15,13 +15,25 @@ const Skills: React.FC = () => {
     return { text: 'New', color: 'bg-emerald-100 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200' };
   };
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
+  const slideInRight = {
+    hidden: { opacity: 0, x: -50 },
     visible: { 
       opacity: 1, 
-      y: 0,
+      x: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    }
+  };
+
+  const slideInLeft = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: {
+        duration: 0.6,
         ease: [0.22, 1, 0.36, 1]
       }
     }
@@ -32,32 +44,8 @@ const Skills: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
-  };
-
-  const skillLevelVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1]
+        staggerChildren: 0.1,
+        delayChildren: 0.2
       }
     }
   };
@@ -66,19 +54,19 @@ const Skills: React.FC = () => {
     <section id="skills" className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-6">
         <motion.h2 
-          variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-150px" }}
+          viewport={{ once: true, margin: "-100px" }}
+          variants={slideInRight}
           className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white"
         >
           My <span className="text-blue-600 dark:text-blue-400">Skills</span>
         </motion.h2>
         <motion.p 
-          variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-150px" }}
+          viewport={{ once: true, margin: "-100px" }}
+          variants={slideInLeft}
           transition={{ delay: 0.2 }}
           className="text-lg text-gray-600 dark:text-gray-400 text-center mb-16 max-w-2xl mx-auto"
         >
@@ -86,71 +74,58 @@ const Skills: React.FC = () => {
         </motion.p>
 
         <div className="space-y-16">
-          {categoryOrder.map((category, categoryIndex) => (
+          {categoryOrder.map((category, index) => (
             <motion.div
               key={category}
-              variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-150px" }}
-              transition={{ delay: categoryIndex * 0.2 }}
+              viewport={{ once: true, margin: "-100px" }}
+              variants={index % 2 === 0 ? slideInRight : slideInLeft}
+              transition={{ delay: index * 0.2 }}
               className="mb-10"
             >
-              <motion.h3 
-                variants={fadeInUp}
-                className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 capitalize"
-              >
+              <h3 className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 capitalize">
                 {category}
-              </motion.h3>
+              </h3>
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-150px" }}
+                viewport={{ once: true, margin: "-100px" }}
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
               >
                 {skills
                   .filter(skill => skill.category === category)
-                  .map((skill) => {
+                  .map((skill, skillIndex) => {
                     const Icon = skill.icon as LucideIcon;
                     const skillLevel = getSkillLevel(skill.level);
                     
                     return (
                       <motion.div
                         key={skill.name}
-                        variants={itemVariants}
+                        variants={skillIndex % 2 === 0 ? slideInRight : slideInLeft}
                         className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg hover:shadow-md transition-all duration-300 group"
-                        whileHover={{ scale: 1.02, y: -5 }}
                       >
                         <div className="flex items-center gap-3 mb-4">
-                          <motion.div 
+                          <div 
                             className="p-2 rounded-lg transition-colors"
                             style={{ backgroundColor: `${skill.color}20` }}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
                           >
                             <Icon 
                               size={24} 
                               style={{ color: skill.color }}
                               className="transition-transform group-hover:scale-110"
                             />
-                          </motion.div>
+                          </div>
                           <div className="flex-1">
                             <h4 className="font-medium text-gray-900 dark:text-white">{skill.name}</h4>
                           </div>
                         </div>
-                        <motion.div 
-                          className="flex justify-between items-center"
-                          variants={skillLevelVariants}
-                        >
-                          <motion.span
-                            className={`text-sm font-semibold px-3 py-1 rounded-full ${skillLevel.color}`}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
+                        <div className="flex justify-between items-center">
+                          <span className={`text-sm font-semibold px-3 py-1 rounded-full ${skillLevel.color}`}>
                             {skillLevel.text}
-                          </motion.span>
-                        </motion.div>
+                          </span>
+                        </div>
                       </motion.div>
                     );
                   })}
