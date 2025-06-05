@@ -10,6 +10,13 @@ export interface ProjectSection {
   content: string[];
 }
 
+export interface Collaborator {
+  name: string;
+  role: string;
+  githubUrl: string;
+  linkedinUrl: string;
+}
+
 export interface Project {
   id: number;
   title: string;
@@ -24,24 +31,33 @@ export interface Project {
   features: string[];
   challenges: string[];
   learnings: string[];
+  collaborators: Collaborator[];
 }
 
 export const projects: Project[] = [
   {
     id: 1,
     title: 'Agricultural BI Analysis Platform',
-    description: 'Advanced business intelligence platform analyzing climate emissions impact on agricultural crops using ETL pipelines and data visualization.',
+    description: 'A cutting-edge business intelligence platform that transforms agricultural data analysis through advanced AI and machine learning. The system integrates real-time climate data with historical crop performance metrics to provide actionable insights for farmers and agricultural businesses. Key features include predictive analytics for crop yields, automated climate impact assessment, and interactive data visualization dashboards that help optimize farming decisions and resource allocation.',
     image: 'https://images.pexels.com/photos/574919/pexels-photo-574919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     category: 'other',
-    technologies: ['Talend', 'Oracle', 'Pentaho', 'ETL', 'BI'],
-    githubUrl: 'https://github.com/YounesAO',
+    technologies: ['Talend', 'Oracle', 'Pentaho', 'ETL', 'BI', 'Data Visualization'],
+    githubUrl: 'https://www.fao.org/faostat/en/#data',
     images: [
       {
-        url: 'https://images.pexels.com/photos/2132227/pexels-photo-2132227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        url: '/cropsarch.png',
         caption: 'Data pipeline visualization and ETL processes'
       },
       {
-        url: 'https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        url: '/crops3.png',
+        caption: 'BI dashboard showing climate impact analytics'
+      },
+      {
+        url: '/crops2.png',
+        caption: 'BI dashboard showing climate impact analytics'
+      },
+      {
+        url: '/crops1.png',
         caption: 'BI dashboard showing climate impact analytics'
       }
     ],
@@ -84,192 +100,264 @@ export const projects: Project[] = [
       'Business intelligence best practices',
       'Data warehousing concepts',
       'Oracle database optimization'
+    ],
+    collaborators: [
+       {
+    name: 'Amina Miskar',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/miskaraminaa',
+    linkedinUrl: 'http://ma.linkedin.com/in/amina-miskar-ba6864208'
+  },
+      {
+    name: 'Saifeddine Douidy',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/SaifeddineDouidy',
+    linkedinUrl: 'http://ma.linkedin.com/in/saifeddine-douidy-87aa62251'
+  }
     ]
   },
   {
     id: 2,
     title: 'Vocal Pathology Detection App',
-    description: 'Mobile application for diagnosing vocal disorders using machine learning and audio processing technologies.',
-    image: 'https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    description: "A mobile app for recording vocal audio and sending it to a pretrained AI model hosted on a Flask API. Built with Expo (React Native). Includes a web admin panel (Flask) for managing pathologies and their descriptions.",
+    image: '/vocal-path.png',
     category: 'mobile',
-    technologies: ['React Native', 'Expo', 'Flask', 'Machine Learning', 'Audio Processing'],
-    githubUrl: 'https://github.com/YounesAO',
+    technologies: [
+      'React Native',
+      'Expo',
+      'Flask',
+      'MongoDB'
+    ],
+    githubUrl: 'https://github.com/YounesAO/PFA-Vocal-Care',
     images: [
       {
-        url: 'https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        caption: 'Mobile app interface for voice recording'
+        url: '/vocal-path-arch.png',
+        caption: 'System Achiticture of the app '
       },
       {
-        url: 'https://images.pexels.com/photos/5632378/pexels-photo-5632378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        caption: 'ML analysis results and diagnosis interface'
+        url: '/vocal-path-uis.png',
+        caption: 'APP UI for detecting pathologies'
       }
     ],
     sections: [
       {
         title: 'Project Overview',
         content: [
-          'Built cross-platform mobile app using React Native and Expo',
-          'Integrated machine learning models for vocal pathology detection',
-          'Developed Flask backend API for audio processing',
-          'Implemented real-time audio analysis and diagnosis'
+          "Mobile app built with Expo (React Native) to record voice and send it to Flask API.",
+          "Web admin panel (Flask) to manage pathology names and descriptions."
         ]
       },
       {
         title: 'Technical Implementation',
         content: [
-          'Used advanced audio processing algorithms for feature extraction',
-          'Trained ML models for pattern recognition in vocal disorders',
-          'Created intuitive mobile interface for healthcare professionals',
-          'Implemented secure data handling for medical information'
+          "Uses Expo for cross-platform mobile development.",
+          "Flask API serves a pretrained AI model and handles audio processing.",
+          "MongoDB for storing pathology data.",
+          "Web admin panel is built using Flask."
         ]
       }
     ],
     features: [
-      'Real-time voice recording',
-      'ML-powered diagnosis',
-      'Cross-platform compatibility',
-      'Healthcare data security',
-      'Audio feature extraction',
-      'Professional reporting'
+      "Voice recording on mobile",
+      "Send audio to Flask API for inference",
+      "Admin panel to edit pathologies and their descriptions"
     ],
     challenges: [
-      'Accurate audio processing on mobile devices',
-      'Training ML models with limited data',
-      'Ensuring medical-grade accuracy',
-      'Cross-platform audio handling'
+      "Handling audio data on mobile and backend",
+      "Integrating mobile app and Flask API"
     ],
     learnings: [
-      'Mobile machine learning implementation',
-      'Audio signal processing',
-      'Healthcare app development',
-      'React Native performance optimization'
+      "React Native/Expo mobile development",
+      "Flask API integration",
+      "Basic admin dashboard with Flask"
+    ],
+    collaborators: [
+      {
+    name: 'Assia Boujnah',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/assia1905',
+    linkedinUrl: 'https://www.linkedin.com/in/assia-boujnah-524839278'
+  },{
+    name: 'Abdellah El Gharbi',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/abdellah-elgharbi/',
+    linkedinUrl: 'https://www.linkedin.com/in/abdellah-el-ghabri-397844292/'
+  }
     ]
   },
   {
     id: 3,
     title: 'Exam Surveillance System',
-    description: 'Anti-cheating web application with real-time monitoring capabilities for online examinations.',
-    image: 'https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    description: 'A comprehensive online examination platform that ensures academic integrity through advanced AI-powered monitoring and behavioral analysis. The system employs sophisticated computer vision algorithms and WebRTC technology to detect potential cheating attempts while maintaining student privacy. Features include multi-camera monitoring, automated suspicious activity detection, and detailed analytics for exam administrators, making it an essential tool for educational institutions conducting remote examinations.',
+    image: 'https://l-express.ca/wp-content/uploads/2023/02/iStock-525409577-1024x683.jpg',
     category: 'web',
-    technologies: ['Java EE', 'Next.js', 'Real-time Monitoring', 'WebRTC'],
-    githubUrl: 'https://github.com/YounesAO',
+    technologies: [
+    "Java",
+    "Spring Boot",
+    "MySQL",
+    "React.js",
+    "React Router",
+    "Chart.js",
+    "Tailwind CSS",
+    "JWT "
+  ],
+    githubUrl: 'https://github.com/YounesAO/ExamSessionManger',
     images: [
       {
-        url: 'https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        caption: 'Real-time monitoring dashboard'
+        url: '/exam1arch.png',
+        caption: 'System Architecture'
       },
       {
-        url: 'https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        caption: 'Exam interface with surveillance features'
+        url: '/exam1lang.png',
+        caption: 'App stack languages'
       }
     ],
-    sections: [
-      {
-        title: 'Project Overview',
-        content: [
-          'Developed comprehensive exam surveillance system',
-          'Implemented real-time monitoring with Java EE backend',
-          'Created modern frontend interface using Next.js',
-          'Integrated anti-cheating detection algorithms'
-        ]
-      },
-      {
-        title: 'Technical Implementation',
-        content: [
-          'Used WebRTC for real-time video monitoring',
-          'Implemented behavioral analysis for cheating detection',
-          'Created secure exam environment with access controls',
-          'Developed automated flagging system for suspicious activities'
-        ]
-      }
-    ],
-    features: [
-      'Real-time video monitoring',
-      'Behavioral analysis',
-      'Automated cheating detection',
-      'Secure exam environment',
-      'Admin dashboard',
-      'Detailed reporting'
-    ],
-    challenges: [
-      'Real-time processing performance',
-      'Privacy and security concerns',
-      'Cross-browser compatibility',
-      'Scalable monitoring architecture'
-    ],
-    learnings: [
-      'Real-time web technologies',
-      'Video processing and analysis',
-      'Security implementation',
-      'Java EE enterprise development'
+    
+  "sections": [
+    {
+      "title": "Project Overview",
+      "content": [
+        "Developed a web application for planning and managing exam sessions",
+        "Implements secure backend with Java Spring Boot",
+        "Modern frontend interface built using React.js",
+        "Automates the assignment of professors to exam sessions for proctoring"
+      ]
+    },
+    {
+      "title": "Technical Implementation",
+      "content": [
+        "Backend built with Spring Boot, Spring Security, Hibernate (JPA), and MySQL",
+        "Frontend built with React.js, React Router, Chart.js, and Tailwind CSS",
+        "Implements JWT authentication, OTP, and password recovery via email",
+        "Automated scheduling and dynamic assignment of professors to exam sessions",
+        "Supports student importation via CSV files"
+      ]
+    }
+  ],
+  "features": [
+    "Secure user authentication (login, OTP, password recovery)",
+    "Teacher and department management (add, update, remove)",
+    "Automated and manual creation of exam sessions",
+    "Automatic assignment of professors to exam sessions",
+    "Interactive admin dashboard with statistics and analytics",
+    "Management of exam rooms and resources",
+    "Student importation via CSV files"
+  ],
+  "challenges": [
+    "Ensuring reliable scheduling and data consistency",
+    "Managing authentication and access controls securely",
+    "Handling user roles and permissions",
+    "Robust CSV parsing and import for students"
+  ],
+  "learnings": [
+    "Secure REST API development with Java Spring Boot and JWT",
+    "Role-based access and authentication workflows",
+    "Automated scheduling and resource assignment algorithms",
+    "Integrating CSV file handling in web applications"
+  ]
+,
+    collaborators: [
+       {
+    name: 'Amina Miskar',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/miskaraminaa',
+    linkedinUrl: 'http://ma.linkedin.com/in/amina-miskar-ba6864208'
+  }, {
+    name: 'Ayoub Harati',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/ayoub-aav/',
+    linkedinUrl: 'https://www.linkedin.com/in/ayoub-harati-2026a22b9/'
+  }, {
+    name: 'Aya El Abidi',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/yaelaya/',
+    linkedinUrl: 'http://ma.linkedin.com/in/aya-el-abidi-118b36305'
+  }
     ]
   },
   {
-    id: 4,
-    title: 'EduGame Platform',
-    description: 'Gamified learning environment for students with interactive educational content and progress tracking.',
-    image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    category: 'web',
-    technologies: ['Spring Boot', 'Android', 'Gamification', 'Educational Technology'],
-    githubUrl: 'https://github.com/YounesAO',
-    images: [
-      {
-        url: 'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        caption: 'Gamified learning interface'
-      },
-      {
-        url: 'https://images.pexels.com/photos/8363028/pexels-photo-8363028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        caption: 'Progress tracking and achievements system'
-      }
+    "id": 4,
+    "title": "EduXGame Platform",
+    "description": "EduXGame is an innovative educational platform designed to make learning engaging and effective through gamification. The platform transforms traditional education by integrating adaptive learning algorithms, interactive games, and real-time analytics. Key features include personalized learning paths, a comprehensive achievement system, progress tracking dashboards, and detailed analytics for educators. EduXGame aims to foster motivation and deeper knowledge retention for learners of all ages.",
+    "image": "https://github.com/aya-elloubab/EduXGame/blob/main/eduXgame-mobile/app/src/main/res/mipmap-hdpi/logo.png?raw=true",
+    "category": "web",
+    "technologies": [
+        "Spring Boot",
+        "Android",
+        "Gamification",
+        "Educational Technology",
+        "Adaptive Learning",
+        "Analytics",
+        "TypeScript",
+        "Java"
     ],
-    sections: [
-      {
-        title: 'Project Overview',
-        content: [
-          'Built gamified learning platform using Spring Boot',
-          'Developed Android mobile companion app',
-          'Implemented interactive educational content',
-          'Created comprehensive progress tracking system'
-        ]
-      },
-      {
-        title: 'Technical Implementation',
-        content: [
-          'Used Spring Boot for robust backend architecture',
-          'Integrated gamification elements and reward systems',
-          'Developed RESTful APIs for mobile app integration',
-          'Implemented user analytics and learning insights'
-        ]
-      }
+    "githubUrl": "https://github.com/aya-elloubab/EduXGame",
+    "images": [
+        {
+            "url":"/edugameuis.png",
+            "caption": "Gamified learning interface"
+        },
+        {
+            "url": "/edugamearch.png",
+            "caption": "System architecture diagram"
+        }
     ],
-    features: [
-      'Interactive learning modules',
-      'Gamification elements',
-      'Progress tracking',
-      'Mobile companion app',
-      'Achievement system',
-      'Learning analytics'
-    ],
-    challenges: [
-      'Engaging user interface design',
-      'Balancing education and entertainment',
-      'Cross-platform synchronization',
-      'Performance optimization'
-    ],
-    learnings: [
-      'Educational technology principles',
-      'Gamification strategies',
-      'Spring Boot development',
-      'Android app development'
+   "sections": [
+  {
+    "title": "Project Overview",
+    "content": [
+      "The EduXGame platform was meticulously built using Spring Boot and Java, leveraging these technologies to provide a solid, scalable foundation for delivering engaging, gamified educational experiences. By combining robust backend architecture with innovative design, the project enables seamless integration of interactive content and real-time feedback, making learning more dynamic and enjoyable for users of all ages. This approach ensures the platform can easily grow to accommodate new features and evolving educational needs.",
+      "A dedicated Android mobile companion app extends the platform's accessibility and allows learners to engage with educational content anytime, anywhere.",
+      "Interactive educational content and challenges were implemented to keep students motivated and make learning both effective and fun.",
+      "A robust progress tracking and achievement system lets students and educators monitor performance, celebrate milestones, and identify growth areas."
     ]
   },
+  {
+    "title": "Technical Implementation",
+  "content": [
+    "The backend of EduXGame is powered by Spring Boot, enabling a scalable and modular architecture that supports reliable user management, content delivery, and seamless integration with the platform’s front-end and mobile components. By exposing carefully designed RESTful APIs, the system ensures smooth communication and data synchronization between different parts of the application. This robust technical foundation allows for efficient handling of user requests and future expansion of features.",
+    "Gamification mechanics such as badges, leaderboards, and progress bars are integrated to foster motivation and engagement.",
+    "The Android client was developed to provide learners with mobile access, notifications, and real-time updates.",
+    "Advanced analytics are implemented to track learning progression and user engagement across the platform."
+  ]
+  }
+],
+    "features": [
+        "Interactive learning modules",
+        "Gamification elements and rewards",
+        "Progress and achievement tracking",
+        "Mobile companion app",
+        "Learning analytics dashboards",
+        "Personalized learning paths"
+    ],
+    "challenges": [
+        "Designing engaging UI for diverse learners",
+        "Balancing educational content with game mechanics",
+        "Synchronizing data across web and mobile platforms",
+        "Optimizing performance for real-time interactions"
+    ],
+    "learnings": [
+        "Principles of educational technology",
+        "Effective gamification strategies",
+        "Spring Boot backend development",
+        "Android mobile application development"
+    ],
+    "collaborators": [
+        {
+    name: 'Aya Elloubab',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/aya-elloubab/',
+    linkedinUrl: 'https://www.linkedin.com/in/aya-elloubab-22b3312b0/'
+  }
+    ]
+},
   {
     id: 5,
     title: 'ESTD Club Management System',
-    description: 'Full-stack web application for university club administration with member management and event organization.',
+    description: 'A comprehensive web-based platform that streamlines university club operations and enhances member engagement. The system provides powerful tools for event management, member communication, and administrative tasks. Features include automated event scheduling, member attendance tracking, resource management, and integrated communication tools, making it the perfect solution for managing university clubs and student organizations efficiently.',
     image: 'https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     category: 'web',
-    technologies: ['PHP', 'Bootstrap', 'MySQL', 'Web Development'],
+    technologies: ['PHP', 'Bootstrap', 'MySQL', 'Web Development', 'Event Management', 'Member Portal'],
     githubUrl: 'https://github.com/YounesAO',
     images: [
       {
@@ -320,6 +408,20 @@ export const projects: Project[] = [
       'Database design principles',
       'Bootstrap framework',
       'Web application security'
+    ],
+    collaborators: [
+       {
+    name: 'Oussama Ajebli',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/OSSAMAAJ/',
+    linkedinUrl: 'https://www.linkedin.com/in/oussama-ajebli-449b06246/'
+  },
+  {
+    name: 'Ismail Er Ramdany',
+    role: 'Core team Collaborator',
+    githubUrl: 'https://github.com/ismailErramdany',
+    linkedinUrl: 'https://www.linkedin.com/in/ismail-er-ramdany-2083b7240/'
+  }
     ]
   }
 ];

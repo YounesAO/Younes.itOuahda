@@ -22,18 +22,19 @@ const Projects: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.15
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
+        duration: 0.6,
+        ease: "easeOut"
       }
     }
   };
@@ -45,7 +46,7 @@ const Projects: React.FC = () => {
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white"
+          className="text-4xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-white"
         >
           My <span className="text-blue-600 dark:text-blue-400">Projects</span>
         </motion.h2>
@@ -54,9 +55,9 @@ const Projects: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-lg text-gray-600 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto"
+          className="text-lg text-gray-600 dark:text-gray-400 text-center mb-12 max-w-3xl mx-auto"
         >
-          Explore my portfolio of projects, showcasing my skills and experience in different areas of software development.
+          Explore my portfolio of innovative projects, showcasing expertise in web development, mobile applications, and cutting-edge technologies.
         </motion.p>
         
         <motion.div 
@@ -64,7 +65,7 @@ const Projects: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          className="flex flex-wrap justify-center gap-4 mb-16"
         >
           {categories.map((category) => (
             <motion.button
@@ -72,7 +73,7 @@ const Projects: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveCategory(category)}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeCategory === category
                   ? 'bg-blue-600 text-white dark:bg-blue-500 shadow-lg shadow-blue-500/30'
                   : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 hover:shadow-md'
@@ -98,7 +99,7 @@ const Projects: React.FC = () => {
                 variants={itemVariants}
                 className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group transform hover:-translate-y-2"
               >
-                <div className="relative overflow-hidden h-48">
+                <div className="relative overflow-hidden h-56">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -132,7 +133,7 @@ const Projects: React.FC = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {project.title}
                     </h3>
@@ -147,11 +148,11 @@ const Projects: React.FC = () => {
                       {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
                     </span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                  <p className="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech) => (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.technologies.slice(0, 4).map((tech) => (
                       <span 
                         key={tech} 
                         className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-3 py-1 rounded-full"
@@ -159,6 +160,11 @@ const Projects: React.FC = () => {
                         {tech}
                       </span>
                     ))}
+                    {project.technologies.length > 4 && (
+                      <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-3 py-1 rounded-full">
+                        +{project.technologies.length - 4} more
+                      </span>
+                    )}
                   </div>
                   <Link
                     to={`/project/${project.id}`}

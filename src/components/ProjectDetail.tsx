@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Github, ExternalLink, CheckCircle, AlertCircle, Lightbulb } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Github, ExternalLink, CheckCircle, AlertCircle, Lightbulb, X, ZoomIn } from 'lucide-react';
 import { projects } from '../data/projects';
 import Button from './ui/Button';
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams();
   const project = projects.find(p => p.id === Number(id));
+  const [selectedImage, setSelectedImage] = useState<{ url: string; caption: string } | null>(null);
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  const handleImageClick = (image: { url: string; caption: string }) => {
+    setSelectedImage(image);
+    setZoomLevel(1);
+  };
+
+  const handleZoom = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY * -0.01;
+    const newZoom = Math.min(Math.max(0.5, zoomLevel + delta), 3);
+    setZoomLevel(newZoom);
+  };
 
   if (!project) {
     return (
@@ -121,22 +139,70 @@ const ProjectDetail: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.6 + index * 0.1 }}
-                    className="relative group"
+                    className="relative group cursor-pointer"
+                    onClick={() => handleImageClick(image)}
                   >
                     <img
                       src={image.url}
                       alt={image.caption}
-                      className="w-full h-48 object-cover rounded-lg"
+                      className="w-full h-48 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-end">
-                      <p className="text-white p-4 text-sm">
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-end justify-between p-4">
+                      <p className="text-white text-sm">
                         {image.caption}
                       </p>
+                      <ZoomIn className="text-white w-5 h-5" />
                     </div>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
+
+            {/* Image Modal */}
+            <AnimatePresence>
+              {selectedImage && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+                  onClick={() => setSelectedImage(null)}
+                >
+                  <motion.div
+                    initial={{ scale: 0.9 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0.9 }}
+                    className="relative max-w-7xl max-h-[90vh]"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => setSelectedImage(null)}
+                      className="absolute -top-0 right-0 text-white hover:text-gray-300 transition-colors"
+                    >
+                      <X size={24} />
+                    </button>
+                    <div
+                      className="overflow-auto max-h-[90vh]"
+                      onWheel={handleZoom}
+                    >
+                      <img
+                        src={selectedImage.url}
+                        alt={selectedImage.caption}
+                        className="rounded-lg"
+                        style={{
+                          transform: `scale(${zoomLevel})`,
+                          transformOrigin: 'center',
+                          transition: 'transform 0.1s ease-out'
+                        }}
+                      />
+                    </div>
+                    <p className="text-white text-center mt-4">
+                      {selectedImage.caption}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Features */}
             <motion.div
@@ -217,6 +283,61 @@ const ProjectDetail: React.FC = () => {
                   >
                     {tech}
                   </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Collaborators */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mb-8"
+            >
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Project Team
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.collaborators.map((collaborator, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 + index * 0.1 }}
+                    className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 shadow-sm"
+                  >
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      {collaborator.name}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      {collaborator.role}
+                    </p>
+                    <div className="flex gap-4">
+                      <a
+                        href={collaborator.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      >
+                        <Github size={20} />
+                      </a>
+                      <a
+                        href={collaborator.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
