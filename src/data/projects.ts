@@ -38,7 +38,7 @@ export const projects: Project[] = [
   {
     id: 1,
     title: 'Agricultural BI Analysis Platform',
-    description: 'A cutting-edge business intelligence platform that transforms agricultural data analysis through advanced AI and machine learning. The system integrates real-time climate data with historical crop performance metrics to provide actionable insights for farmers and agricultural businesses. Key features include predictive analytics for crop yields, automated climate impact assessment, and interactive data visualization dashboards that help optimize farming decisions and resource allocation.',
+    description: 'A cutting-edge business intelligence project that transforms agricultural data analysis and climate data with historical crop performance metrics to provide actionable insights for farmers and agricultural businesses. Key features include predictive analytics for crop yields, automated climate impact assessment, and interactive data visualization dashboards that help optimize farming decisions and resource allocation.',
     image: 'https://images.pexels.com/photos/574919/pexels-photo-574919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     category: 'other',
     technologies: ['Talend', 'Oracle', 'Pentaho', 'ETL', 'BI', 'Data Visualization'],
