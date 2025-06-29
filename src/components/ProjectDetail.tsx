@@ -133,13 +133,13 @@ const ProjectDetail: React.FC = () => {
                   className="flex gap-4"
                 >
                   {project.githubUrl && (
-                    <Button href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                    <Button href={project.githubUrl}>
                       <Github size={20} className="mr-2" />
                       View Source
                     </Button>
                   )}
                   {project.liveUrl && (
-                    <Button primary href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                    <Button primary href={project.liveUrl}>
                       <ExternalLink size={20} className="mr-2" />
                       Live Demo
                     </Button>
@@ -341,6 +341,35 @@ const ProjectDetail: React.FC = () => {
                 ))}
               </motion.div>
             </motion.div>
+
+            {/* Categories */}
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="mb-8"
+            >
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Categories
+              </h2>
+              <div className="flex gap-2 flex-wrap mb-4">
+                {project.category.map(cat => (
+                  <span key={cat} className={`text-xs px-3 py-1 rounded-full font-medium ${
+                    {
+                      web: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
+                      mobile: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
+                      ai: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300',
+                      iot: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300',
+                      other: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+                    }[cat]
+                  }`}>
+                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
             {/* Collaborators */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

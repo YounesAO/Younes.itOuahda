@@ -11,10 +11,10 @@ const Projects: React.FC = () => {
   // Use useMemo to optimize filtering performance
   const filteredProjects = useMemo(() => {
     setIsLoading(true);
-    const filtered = activeCategory === 'all' 
-      ? projects 
-      : projects.filter(project => project.category === activeCategory);
-    setTimeout(() => setIsLoading(false), 300); // Simulate loading for smooth transition
+    const filtered = activeCategory === 'all'
+      ? projects
+      : projects.filter(project => project.category.includes(activeCategory));
+    setTimeout(() => setIsLoading(false), 300);
     return filtered;
   }, [activeCategory]);
   
@@ -155,16 +155,21 @@ const Projects: React.FC = () => {
                       >
                         {project.title}
                       </h3>
-                      <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        {
-                          web: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
-                          mobile: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
-                          ai: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300',
-                          other: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
-                        }[project.category]
-                      }`}>
-                        {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
-                      </span>
+                      <div className="flex gap-2 flex-wrap">
+                        {project.category.map(cat => (
+                          <span key={cat} className={`text-xs px-3 py-1 rounded-full font-medium ${
+                            {
+                              web: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
+                              mobile: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
+                              ai: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300',
+                              iot: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300',
+                              other: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+                            }[cat]
+                          }`}>
+                              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                            </span>
+                        ))}
+                      </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
                       {project.description}
