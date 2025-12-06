@@ -1,187 +1,196 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { skills, SkillCategory } from '../data/skills';
-import { LucideIcon, ChevronDown, ChevronUp } from 'lucide-react';
+import { LucideIcon, Code2 } from 'lucide-react';
 
 const Skills: React.FC = () => {
-  const [expandedCategory, setExpandedCategory] = useState<SkillCategory | null>(null);
-  const categoryOrder: SkillCategory[] = ['languages', 'frontend', 'backend', 'tools', 'other'];
+  const [activeCategory, setActiveCategory] = useState<SkillCategory | 'all'>('all');
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
-  // Function to convert percentage to descriptive level
-  const getSkillLevel = (level: number): { text: string; color: string } => {
-    if (level >= 90) return { text: 'Excellent', color: 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200' };
-    if (level >= 75) return { text: 'Strong', color: 'bg-rose-100 dark:bg-rose-800 text-rose-800 dark:text-rose-200' };
-    if (level >= 60) return { text: 'Good', color: 'bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-200' };
-    if (level >= 40) return { text: 'Basic', color: 'bg-cyan-100 dark:bg-cyan-800 text-cyan-800 dark:text-cyan-200' };
-    return { text: 'New', color: 'bg-emerald-100 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200' };
-  };
+  const categories: Array<{ key: SkillCategory | 'all'; label: string; icon: string }> = [
+    { key: 'all', label: 'All Skills', icon: '✨' },
+    { key: 'languages', label: 'Languages', icon: '💻' },
+    { key: 'frontend', label: 'Frontend', icon: '🎨' },
+    { key: 'backend', label: 'Backend', icon: '⚙️' },
+    { key: 'tools', label: 'DevOps', icon: '🛠️' },
+    { key: 'other', label: 'Other', icon: '🚀' },
+  ];
 
-  const slideInRight = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
-  };
+  const filteredSkills = activeCategory === 'all'
+    ? skills
+    : skills.filter(skill => skill.category === activeCategory);
 
-  const slideInLeft = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-  const toggleCategory = (category: SkillCategory) => {
-    setExpandedCategory(expandedCategory === category ? null : category);
+  const getSkillLevel = (level: number): { text: string; color: string; bgColor: string } => {
+    if (level >= 85) return { text: 'Expert', color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-100 dark:bg-green-900/30' };
+    if (level >= 70) return { text: 'Advanced', color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-100 dark:bg-blue-900/30' };
+    if (level >= 55) return { text: 'Proficient', color: 'text-purple-600 dark:text-purple-400', bgColor: 'bg-purple-100 dark:bg-purple-900/30' };
+    if (level >= 40) return { text: 'Intermediate', color: 'text-orange-600 dark:text-orange-400', bgColor: 'bg-orange-100 dark:bg-orange-900/30' };
+    return { text: 'Learning', color: 'text-gray-600 dark:text-gray-400', bgColor: 'bg-gray-100 dark:bg-gray-700' };
   };
 
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-6">
-        <motion.h2 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={slideInRight}
-          className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white"
-        >
-          My <span className="text-blue-600 dark:text-blue-400">Skills</span>
-        </motion.h2>
-        <motion.p 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={slideInLeft}
-          transition={{ delay: 0.2 }}
-          className="text-lg text-gray-600 dark:text-gray-400 text-center mb-16 max-w-2xl mx-auto"
-        >
-          A comprehensive overview of my technical skills and competencies.
-        </motion.p>
+    <section id="skills" className="py-24 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-white dark:bg-gray-900" />
 
-        <div className="space-y-8">
-          {categoryOrder.map((category, index) => (
-            <motion.div
-              key={category}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={index % 2 === 0 ? slideInRight : slideInLeft}
-              transition={{ delay: index * 0.2 }}
-              className="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden"
+      {/* Subtle decorative elements */}
+      <div className="absolute top-20 right-10 w-72 h-72 bg-blue-500/[0.03] rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-purple-500/[0.03] rounded-full blur-3xl" />
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-sm font-medium text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800 mb-4"
+          >
+            <Code2 size={16} />
+            Tech Stack
+          </motion.span>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="text-gray-900 dark:text-white">Skills & </span>
+            <span className="text-blue-600 dark:text-blue-400">Technologies</span>
+          </h2>
+
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+            A comprehensive overview of my technical expertise and the tools I use to bring ideas to life.
+          </p>
+
+          <div className="w-24 h-1 mx-auto rounded-full bg-blue-600 dark:bg-blue-400" />
+        </motion.div>
+
+        {/* Category Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3 mb-12"
+        >
+          {categories.map((category, index) => (
+            <motion.button
+              key={category.key}
+              onClick={() => setActiveCategory(category.key)}
+              className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 border ${activeCategory === category.key
+                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600'
+                }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
             >
-              <motion.button
-                onClick={() => toggleCategory(category)}
-                className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+              <span>{category.icon}</span>
+              <span>{category.label}</span>
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Skills Grid */}
+        <motion.div
+          layout
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+        >
+          {filteredSkills.map((skill, index) => {
+            const Icon = skill.icon as LucideIcon;
+            const levelInfo = getSkillLevel(skill.level);
+            const isHovered = hoveredSkill === skill.name;
+
+            return (
+              <motion.div
+                key={skill.name}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+                onMouseEnter={() => setHoveredSkill(skill.name)}
+                onMouseLeave={() => setHoveredSkill(null)}
+                className="group"
               >
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 capitalize">
-                  {category}
-                </h3>
                 <motion.div
-                  animate={{ rotate: expandedCategory === category ? 180 : 0 }}
+                  className="relative h-full bg-white dark:bg-gray-800 rounded-2xl p-5 text-center border border-gray-200 dark:border-gray-700 shadow-md"
+                  whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {expandedCategory === category ? (
-                    <ChevronUp size={24} className="text-gray-600 dark:text-gray-400" />
-                  ) : (
-                    <ChevronDown size={24} className="text-gray-600 dark:text-gray-400" />
-                  )}
-                </motion.div>
-              </motion.button>
-
-              <AnimatePresence>
-                {expandedCategory === category && (
+                  {/* Icon container */}
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
+                    className="w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: `${skill.color}15` }}
+                    whileHover={{ rotate: 10, scale: 1.1 }}
+                  >
+                    <Icon
+                      size={28}
+                      style={{ color: skill.color }}
+                    />
+                  </motion.div>
+
+                  {/* Skill name */}
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm">
+                    {skill.name}
+                  </h4>
+
+                  {/* Skill level badge */}
+                  <span className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${levelInfo.bgColor} ${levelInfo.color}`}>
+                    {levelInfo.text}
+                  </span>
+
+                  {/* Progress indicator (visible on hover) */}
+                  <motion.div
+                    className="absolute bottom-2 left-2 right-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <motion.div
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                    >
-                      {skills
-                        .filter(skill => skill.category === category)
-                        .map((skill, skillIndex) => {
-                          const Icon = skill.icon as LucideIcon;
-                          const skillLevel = getSkillLevel(skill.level);
-                          
-                          return (
-                            <motion.div
-                              key={skill.name}
-                              variants={skillIndex % 2 === 0 ? slideInRight : slideInLeft}
-                              className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm hover:shadow-md  group"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <div className="flex items-center gap-3 mb-4">
-                                <motion.div 
-                                  className="p-2 rounded-lg transition-colors"
-                                  style={{ backgroundColor: `${skill.color}20` }}
-                                  whileHover={{ scale: 1.1 }}
-                                >
-                                  <Icon 
-                                    size={24} 
-                                    style={{ color: skill.color }}
-                                    className="transition-transform group-hover:scale-110"
-                                  />
-                                </motion.div>
-                                <div className="flex-1">
-                                  <h4 className="font-medium text-gray-900 dark:text-white">{skill.name}</h4>
-                                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2 hidden">
-                                    <motion.div
-                                      className="h-2 rounded-full"
-                                      style={{ backgroundColor: skill.color }}
-                                      initial={{ width: 0 }}
-                                      animate={{ width: `${skill.level}%` }}
-                                      transition={{ duration: 1, ease: "easeOut" }}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-center ">
-                                <span className={`text-sm font-semibold px-3 py-1 rounded-full ${skillLevel.color}`}>
-                                  {skillLevel.text}
-                                </span>
-                                <span className="text-sm text-gray-600 dark:text-gray-400 hidden">
-                                  {skill.level}%
-                                </span>
-                              </div>
-                            </motion.div>
-                          );
-                        })}
-                    </motion.div>
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: skill.color }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${skill.level}%` }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                    />
                   </motion.div>
-                )}
-              </AnimatePresence>
+                </motion.div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Stats Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+        >
+          {[
+            { label: 'Programming Languages', value: skills.filter(s => s.category === 'languages').length, icon: '💻' },
+            { label: 'Frontend Technologies', value: skills.filter(s => s.category === 'frontend').length, icon: '🎨' },
+            { label: 'Backend & Databases', value: skills.filter(s => s.category === 'backend').length, icon: '⚙️' },
+            { label: 'Tools & Platforms', value: skills.filter(s => s.category === 'tools').length + skills.filter(s => s.category === 'other').length, icon: '🛠️' },
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              className="bg-white dark:bg-gray-800 rounded-2xl p-6 text-center border border-gray-200 dark:border-gray-700 shadow-md"
+              whileHover={{ y: -5 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <span className="text-3xl mb-2 block">{stat.icon}</span>
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">{stat.value}+</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

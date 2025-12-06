@@ -13,7 +13,7 @@ export const education: EducationItem[] = [
     title: 'Engineering Degree in Computer Science (2ITE)',
     organization: 'Ecole Nationale des Sciences Appliquées d\'El Jadida (ENSAJ)',
     period: '2023 - 2026',
-    description: 'Currently pursuing an Engineering Degree in Computer Science with focus on Full-Stack Development and DevOps. Specializing in modern web technologies ,Big Data and business intelligence.',
+    description: 'Currently pursuing an Engineering Degree in Computer Science with focus on Full-Stack Development and DevOps. Specializing in modern web technologies, Big Data and business intelligence.',
     type: 'education',
   },
   {
@@ -24,7 +24,14 @@ export const education: EducationItem[] = [
     type: 'education',
   },
   {
-    title: 'SSoftware Engineer Intern',
+    title: 'Software Architecture Intern',
+    organization: 'DeepLeaf (Morocco)',
+    period: 'Jul 2025 - Sep 2025',
+    description: 'Contributed to migrating a monolithic API to microservices architecture. Designed a high-performance Usage Log microservice using FastAPI with REST and gRPC APIs. Engineered data layer with TimescaleDB and PostGIS.',
+    type: 'work',
+  },
+  {
+    title: 'Software Engineer Intern',
     organization: 'Assab Vision (France)',
     period: 'Jul 2024 - Aug 2024',
     description: 'Developed ERP/CRM modules using Next.js and Tailwind CSS. Implemented Sanity CMS integration and deployed on VPS. Managed CI/CD pipelines for automated deployments.',
@@ -34,7 +41,7 @@ export const education: EducationItem[] = [
     title: 'Web Developer Intern',
     organization: 'ADMDI (Morocco)',
     period: 'Apr 2023 - Jun 2023',
-    description: 'Built car rental platform with Laravel/MySQL, Integrated dashboard for tracking business insights',
+    description: 'Built car rental platform with Laravel/MySQL. Integrated dashboard for tracking business insights.',
     type: 'work',
   },
   {

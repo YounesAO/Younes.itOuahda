@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowDown, Github, Linkedin, FileText, Mail } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, FileText, Mail, Sparkles } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Button from './ui/Button';
 import photo from '../assets/photo.png';
 
 const Hero: React.FC = () => {
   const [typedText, setTypedText] = useState('');
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const fullText = 'Software Engineer';
-  const typingSpeed = 150;
-  
+  const [currentRole, setCurrentRole] = useState(0);
+  const roles = ['Software Engineer', 'Full-Stack Developer', 'Problem Solver', 'Tech Enthusiast'];
+  const typingSpeed = 100;
+
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
-  
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const scale = useTransform(scrollY, [0, 400], [1, 0.9]);
+  const y = useTransform(scrollY, [0, 400], [0, 100]);
+
   useEffect(() => {
+    const fullText = roles[currentRole];
+
     if (typedText.length < fullText.length) {
       const timeout = setTimeout(() => {
         setTypedText(fullText.slice(0, typedText.length + 1));
       }, typingSpeed);
-      
       return () => clearTimeout(timeout);
     } else {
       setIsTypingComplete(true);
+      const timeout = setTimeout(() => {
+        setTypedText('');
+        setIsTypingComplete(false);
+        setCurrentRole((prev) => (prev + 1) % roles.length);
+      }, 2000);
+      return () => clearTimeout(timeout);
     }
-  }, [typedText]);
+  }, [typedText, currentRole]);
 
   const scrollToProjects = () => {
     const projectsSection = document.getElementById('projects');
@@ -35,106 +43,153 @@ const Hero: React.FC = () => {
 
   const socialLinks = [
     {
-      icon: <Github size={24} />,
+      icon: <Github size={22} />,
       href: import.meta.env.VITE_GITHUB_URL,
-      label: 'GitHub'
+      label: 'GitHub',
     },
     {
-      icon: <Linkedin size={24} />,
+      icon: <Linkedin size={22} />,
       href: import.meta.env.VITE_LINKEDIN_URL,
-      label: 'LinkedIn'
+      label: 'LinkedIn',
     },
     {
-      icon: <Mail size={24} />,
+      icon: <Mail size={22} />,
       href: `mailto:${import.meta.env.VITE_CONTACT_EMAIL}`,
-      label: 'Email'
+      label: 'Email',
     }
   ];
 
   return (
-    <section 
-      id="home" 
-      className="min-h-screen flex items-center relative bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300"
+    <section
+      id="home"
+      className="min-h-screen flex items-center relative overflow-hidden"
     >
-      <div className="absolute inset-0 opacity-30 dark:opacity-20 transition-opacity duration-300">
-        <div className="absolute w-96 h-96 rounded-full bg-blue-300 dark:bg-blue-600 blur-3xl top-1/4 left-1/4 animate-pulse"></div>
-        <div className="absolute w-96 h-96 rounded-full bg-purple-300 dark:bg-purple-600 blur-3xl bottom-1/4 right-1/4 animate-pulse" style={{ animationDelay: '1s' }}></div>
+      {/* Clean background */}
+      <div className="absolute inset-0 bg-gray-50 dark:bg-gray-900 transition-colors duration-500" />
+
+      {/* Subtle decorative circles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full opacity-[0.03] dark:opacity-[0.05] bg-blue-500"
+          style={{ top: '10%', right: '10%' }}
+        />
+        <div
+          className="absolute w-[400px] h-[400px] rounded-full opacity-[0.03] dark:opacity-[0.05] bg-blue-500"
+          style={{ bottom: '10%', left: '10%' }}
+        />
       </div>
-      
-      <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
+
+      <motion.div
+        style={{ opacity, scale, y }}
+        className="container mx-auto px-6 py-20 relative z-10"
+      >
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{ opacity, scale }}
-            className="flex-1 text-center md:text-left md:max-w-2xl"
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 text-center lg:text-left"
           >
-            <motion.h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-900 dark:text-white transition-colors duration-300"
+            {/* Badge */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 mb-6"
             >
-              Hello, I'm <span className="text-blue-600 dark:text-blue-400">Younes AO</span>
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-sm font-medium text-green-700 dark:text-green-400">
+                Available for opportunities
+              </span>
+            </motion.div>
+
+            {/* Main heading */}
+            <motion.h1
+              className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 leading-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <span className="text-gray-900 dark:text-white">Hello, I'm </span>
+              <span className="text-blue-600 dark:text-blue-400">Younes AO</span>
             </motion.h1>
-            
-            <motion.div 
-              className="h-12 mb-8"
+
+            {/* Typing effect */}
+            <motion.div
+              className="h-14 mb-8 flex items-center justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 dark:text-gray-300 inline-block transition-colors duration-300">
-                {typedText}
-                <motion.span 
-                  animate={{ opacity: isTypingComplete ? 0 : 1 }}
-                  transition={{ duration: 0.5, repeat: Infinity }}
-                  className="inline-block w-1 h-8 bg-blue-600 dark:bg-blue-400 ml-1"
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-600 dark:text-gray-300">
+                <span className="text-blue-600 dark:text-blue-400">{typedText}</span>
+                <motion.span
+                  animate={{ opacity: isTypingComplete ? [1, 0] : 1 }}
+                  transition={{ duration: 0.5, repeat: isTypingComplete ? Infinity : 0 }}
+                  className="inline-block w-1 h-10 bg-blue-600 dark:bg-blue-400 ml-1 align-middle"
                 />
               </h2>
             </motion.div>
-            
-            <motion.p 
-              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed transition-colors duration-300 max-w-xl"
+
+            {/* Description */}
+            <motion.p
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              I build exceptional digital experiences with clean code and modern technologies.
-              Passionate about creating elegant solutions to complex problems.
+              I craft <span className="text-blue-600 dark:text-blue-400 font-medium">exceptional digital experiences</span> with
+              clean code and modern technologies. Passionate about turning complex problems into elegant solutions.
             </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mb-12"
+
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <motion.button
+                onClick={scrollToProjects}
+                className="btn-primary flex items-center justify-center gap-2"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Sparkles size={18} />
+                View My Work
+              </motion.button>
+              <motion.a
+                href="/resume.pdf"
+                download
+                className="btn-secondary flex items-center justify-center gap-2"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FileText size={18} />
+                Download CV
+              </motion.a>
+            </motion.div>
+
+            {/* Social links */}
+            <motion.div
+              className="flex justify-center lg:justify-start gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              <Button primary onClick={scrollToProjects}>
-                View My Work
-              </Button>
-              <Button secondary href="/resume.pdf" download>
-                <FileText size={18} className="mr-2" />
-                Download CV
-              </Button>
-            </motion.div>
-            
-            <motion.div 
-              className="flex justify-center md:justify-start space-x-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1 }}
-            >
               {socialLinks.map((link, index) => (
                 <motion.a
                   key={link.label}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-full p-2"
+                  className="p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-sm"
+                  whileHover={{ scale: 1.1, y: -4 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 + index * 0.1 }}
                   aria-label={link.label}
                 >
                   {link.icon}
@@ -143,49 +198,90 @@ const Hero: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          <motion.div 
+          {/* Profile Image */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{ opacity, scale }}
-            className="flex-1 flex justify-center md:justify-end"
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 flex justify-center lg:justify-end"
           >
-            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80">
-              <div className="absolute inset-0 bg-blue-600 dark:bg-blue-400 rounded-full opacity-20 blur-xl animate-pulse"></div>
-              <motion.img
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-                src={photo}
-                alt="Younes Ait Ouahda"
-                className="relative w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-800 shadow-xl transition-colors duration-300"
-                loading="eager"
-              />
+            <div className="relative">
+              {/* Simple ring */}
+              <div className="absolute -inset-4 rounded-full border-2 border-blue-500/20 animate-pulse-glow" />
+
+              {/* Image container */}
+              <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                <motion.div
+                  className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src={photo}
+                    alt="Younes Ait Ouahda"
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                  />
+                </motion.div>
+
+                {/* Floating badges */}
+                <motion.div
+                  className="absolute -right-4 top-8 px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <span className="text-2xl">💻</span>
+                </motion.div>
+
+                <motion.div
+                  className="absolute -left-4 bottom-16 px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                >
+                  <span className="text-2xl">🚀</span>
+                </motion.div>
+
+                <motion.div
+                  className="absolute right-8 -bottom-4 px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                >
+                  <span className="text-2xl">✨</span>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
-        
-        <motion.div 
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          transition={{ delay: 1.2, duration: 0.5 }}
         >
-          <motion.button 
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
+          <motion.button
             onClick={() => {
               const aboutSection = document.getElementById('about');
               if (aboutSection) {
                 aboutSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Scroll down"
           >
-            <ArrowDown size={20} className="text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium">Scroll Down</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ArrowDown size={24} />
+            </motion.div>
           </motion.button>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

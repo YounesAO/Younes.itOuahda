@@ -1,316 +1,186 @@
 import React, { useState, useRef } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle, XCircle, Github, Linkedin, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, MapPin, Phone, Send, CheckCircle, AlertCircle, Loader2, MessageSquare, Sparkles } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import Button from './ui/Button';
 
 const Contact: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: '',
+    message: ''
   });
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-    
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
-    }
-    
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-    
     setIsSubmitting(true);
-    setSubmitStatus('idle');
-    
+
     try {
-      if (!formRef.current) return;
-      
       await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
+        formRef.current!,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
-      
       setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
-      
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
-      console.error('Error sending message:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus('idle'), 5000);
     }
   };
 
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const socialLinks = [
+  const contactInfo = [
     {
-      icon: <Github size={20} />,
-      href: import.meta.env.VITE_GITHUB_URL,
-      label: 'GitHub'
+      icon: <Mail size={24} />,
+      label: 'Email',
+      value: import.meta.env.VITE_CONTACT_EMAIL || 'contact@example.com',
+      href: `mailto:${import.meta.env.VITE_CONTACT_EMAIL}`,
+      color: 'bg-blue-600'
     },
     {
-      icon: <Linkedin size={20} />,
-      href: import.meta.env.VITE_LINKEDIN_URL,
-      label: 'LinkedIn'
+      icon: <MapPin size={24} />,
+      label: 'Location',
+      value: 'Morocco',
+      href: null,
+      color: 'bg-purple-600'
     },
     {
-      icon: <Twitter size={20} />,
-      href: import.meta.env.VITE_TWITTER_URL,
-      label: 'Twitter'
+      icon: <Phone size={24} />,
+      label: 'Availability',
+      value: 'Open to opportunities',
+      href: null,
+      color: 'bg-orange-600'
     }
   ];
-  
+
   return (
-    <section id="contact" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-6">
-        <motion.h2 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
-          className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white"
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gray-50 dark:bg-gray-800/50" />
+
+      {/* Subtle decorative elements */}
+      <div className="absolute top-20 -left-20 w-96 h-96 bg-blue-500/[0.03] rounded-full blur-3xl" />
+      <div className="absolute bottom-20 -right-20 w-80 h-80 bg-purple-500/[0.03] rounded-full blur-3xl" />
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          Get In <span className="text-blue-600 dark:text-blue-400">Touch</span>
-        </motion.h2>
-        <motion.p 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
-          transition={{ delay: 0.2 }}
-          className="text-lg text-gray-600 dark:text-gray-400 text-center mb-16 max-w-2xl mx-auto"
-        >
-          Have a question or want to work together? Feel free to contact me!
-        </motion.p>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-            className="lg:col-span-1"
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-sm font-medium text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800 mb-4"
           >
-            <motion.div 
-              className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg h-full"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Contact Information</h3>
-              
-              <motion.div 
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                className="space-y-8"
+            <MessageSquare size={16} />
+            Get In Touch
+          </motion.span>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="text-gray-900 dark:text-white">Let's Work </span>
+            <span className="text-blue-600 dark:text-blue-400">Together</span>
+          </h2>
+
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+            Have a project in mind? Let's discuss how we can bring your ideas to life.
+          </p>
+
+          <div className="w-24 h-1 mx-auto rounded-full bg-blue-600 dark:bg-blue-400" />
+        </motion.div>
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12">
+          {/* Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-2 space-y-6"
+          >
+            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Contact Information
+              </h3>
+
+              <div className="space-y-6">
+                {contactInfo.map((info, index) => (
+                  <motion.div
+                    key={info.label}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-start gap-4"
+                  >
+                    <div className={`p-3 rounded-xl ${info.color} text-white shadow-lg`}>
+                      {info.icon}
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{info.label}</p>
+                      {info.href ? (
+                        <a
+                          href={info.href}
+                          className="text-lg font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        >
+                          {info.value}
+                        </a>
+                      ) : (
+                        <p className="text-lg font-medium text-gray-900 dark:text-white">{info.value}</p>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Response time */}
+              <motion.div
+                className="mt-8 p-6 rounded-2xl bg-gray-50 dark:bg-gray-700 text-center"
+                whileHover={{ scale: 1.02 }}
               >
-                <motion.div variants={fadeIn} className="flex items-start">
-                  <motion.div 
-                    className="mr-4"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
-                      <Mail size={20} className="text-blue-600 dark:text-blue-400" />
-                    </div>
-                  </motion.div>
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Email</h4>
-                    <motion.a 
-                      href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL}`}
-                      className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      whileHover={{ x: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {import.meta.env.VITE_CONTACT_EMAIL}
-                    </motion.a>
-                  </div>
-                </motion.div>
-                
-                <motion.div variants={fadeIn} className="flex items-start">
-                  <motion.div 
-                    className="mr-4"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
-                      <Phone size={20} className="text-blue-600 dark:text-blue-400" />
-                    </div>
-                  </motion.div>
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Phone</h4>
-                    <motion.a 
-                      href={`tel:${import.meta.env.VITE_CONTACT_PHONE}`}
-                      className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      whileHover={{ x: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {import.meta.env.VITE_CONTACT_PHONE}
-                    </motion.a>
-                  </div>
-                </motion.div>
-                
-                <motion.div variants={fadeIn} className="flex items-start">
-                  <motion.div 
-                    className="mr-4"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
-                      <MapPin size={20} className="text-blue-600 dark:text-blue-400" />
-                    </div>
-                  </motion.div>
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Location</h4>
-                    <p className="text-gray-900 dark:text-white">
-                      {import.meta.env.VITE_CONTACT_LOCATION}
-                    </p>
-                  </div>
-                </motion.div>
+                <div className="text-6xl mb-4">💻</div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  I do respond quickly <span className="font-bold text-blue-600 dark:text-blue-400"> </span>
+                </p>
               </motion.div>
-              
-              <motion.div 
-                variants={fadeIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                className="mt-10"
-              >
-                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Follow Me</h4>
-                <div className="flex space-x-4">
-                  {socialLinks.map((link, index) => (
-                    <motion.a 
-                      key={link.label}
-                      href={link.href}
-                      className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-all"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      aria-label={link.label}
-                    >
-                      {link.icon}
-                    </motion.a>
-                  ))}
-                </div>
-              </motion.div>
-            </motion.div>
+            </div>
           </motion.div>
-          
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-2"
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="lg:col-span-3"
           >
-            <motion.div 
-              className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg"
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Send Me a Message</h3>
-              
-              <AnimatePresence mode="wait">
-                {submitStatus === 'success' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="flex items-center bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 p-4 rounded-lg mb-6"
-                  >
-                    <CheckCircle size={20} className="mr-2 flex-shrink-0" />
-                    <p>Thank you for your message! I'll get back to you as soon as possible.</p>
-                  </motion.div>
-                )}
-                
-                {submitStatus === 'error' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="flex items-center bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 p-4 rounded-lg mb-6"
-                  >
-                    <XCircle size={20} className="mr-2 flex-shrink-0" />
-                    <p>Oops! Something went wrong. Please try again later.</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              
+            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 md:p-10 border border-gray-200 dark:border-gray-700 shadow-lg">
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <motion.div variants={fadeIn}>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Name
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Your Name
                     </label>
                     <input
                       type="text"
@@ -318,28 +188,19 @@ const Contact: React.FC = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        errors.name 
-                          ? 'border-red-500 dark:border-red-500' 
-                          : 'border-gray-300 dark:border-gray-600'
-                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
+                      required
+                      placeholder="John Doe"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none"
                     />
-                    <AnimatePresence>
-                      {errors.name && (
-                        <motion.p
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          className="mt-1 text-sm text-red-600 dark:text-red-400"
-                        >
-                          {errors.name}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
                   </motion.div>
-                  <motion.div variants={fadeIn}>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Email
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                  >
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Email Address
                     </label>
                     <input
                       type="email"
@@ -347,29 +208,19 @@ const Contact: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        errors.email 
-                          ? 'border-red-500 dark:border-red-500' 
-                          : 'border-gray-300 dark:border-gray-600'
-                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
+                      required
+                      placeholder="john@example.com"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none"
                     />
-                    <AnimatePresence>
-                      {errors.email && (
-                        <motion.p
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          className="mt-1 text-sm text-red-600 dark:text-red-400"
-                        >
-                          {errors.email}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
                   </motion.div>
                 </div>
-                
-                <motion.div variants={fadeIn}>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Subject
                   </label>
                   <input
@@ -378,28 +229,18 @@ const Contact: React.FC = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className={`w-full px-4 py-2 rounded-lg border ${
-                      errors.subject 
-                        ? 'border-red-500 dark:border-red-500' 
-                        : 'border-gray-300 dark:border-gray-600'
-                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors`}
+                    required
+                    placeholder="What's this about?"
+                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none"
                   />
-                  <AnimatePresence>
-                    {errors.subject && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="mt-1 text-sm text-red-600 dark:text-red-400"
-                      >
-                        {errors.subject}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
                 </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 }}
+                >
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Message
                   </label>
                   <textarea
@@ -407,50 +248,62 @@ const Contact: React.FC = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows={6}
-                    className={`w-full px-4 py-2 rounded-lg border ${
-                      errors.message 
-                        ? 'border-red-500 dark:border-red-500' 
-                        : 'border-gray-300 dark:border-gray-600'
-                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors resize-none`}
+                    required
+                    rows={5}
+                    placeholder="Tell me about your project..."
+                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none resize-none"
                   />
-                  <AnimatePresence>
-                    {errors.message && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="mt-1 text-sm text-red-600 dark:text-red-400"
-                      >
-                        {errors.message}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
                 </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <Button
-                    type="submit"
-                    primary
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto"
-                  >
-                    {isSubmitting ? (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                      />
-                    ) : (
-                      <>
-                        <Send size={18} className="mr-2" />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-                </motion.div>
+
+                {/* Submit Button */}
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full btn-primary flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin" size={20} />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={20} />
+                      Send Message
+                    </>
+                  )}
+                </motion.button>
+
+                {/* Status Messages */}
+                <AnimatePresence>
+                  {submitStatus === 'success' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-3 p-4 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+                    >
+                      <CheckCircle size={20} />
+                      <span className="font-medium">Message sent successfully! I'll get back to you soon.</span>
+                    </motion.div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-3 p-4 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                    >
+                      <AlertCircle size={20} />
+                      <span className="font-medium">Oops! Something went wrong. Please try again.</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </form>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

@@ -12,6 +12,21 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: 1,
+    title: 'Software Architecture Intern',
+    company: 'DeepLeaf',
+    location: 'Morocco',
+    period: 'Jul 2025 - Sep 2025',
+    type: 'internship',
+    description: [
+      'Contributed to the strategic migration of a monolithic API to a scalable microservices architecture to meet B2B/B2G demands.',
+      'Designed and developed a high-performance Usage Log microservice using FastAPI, exposing both REST and gRPC APIs.',
+      'Engineered a specialized data layer with TimescaleDB for time-series data and PostGIS for complex geospatial analysis.',
+      'Implemented advanced features including multi-dimensional filtering and efficient keyset pagination to optimize performance over large datasets.'
+    ],
+    technologies: ['Microservices', 'FastAPI', 'gRPC', 'TimescaleDB', 'PostGIS', 'Docker', 'SQLAlchemy', 'Alembic']
+  },
+  {
+    id: 2,
     title: 'Software Engineer Intern',
     company: 'Assab Vision',
     location: 'France',
@@ -26,7 +41,7 @@ export const experiences: Experience[] = [
     technologies: ['Next.js', 'Tailwind CSS', 'Sanity CMS', 'VPS', 'CI/CD', 'github Actions']
   },
   {
-    id: 2,
+    id: 3,
     title: 'Web Developer Intern',
     company: 'ADMDI',
     location: 'Morocco',
@@ -41,7 +56,7 @@ export const experiences: Experience[] = [
     technologies: ['Laravel', 'MySQL', 'PHP', 'HTML/CSS', 'JavaScript']
   },
   {
-    id: 3,
+    id: 4,
     title: 'Full-Stack Intern',
     company: 'Ouahda Solutions',
     location: 'Morocco',
@@ -54,19 +69,5 @@ export const experiences: Experience[] = [
       'Implemented real-time reporting and analytics for business insights'
     ],
     technologies: ['PHP', 'MySQL', 'Chart.js', 'JavaScript', 'HTML/CSS']
-  },{
-  id: 4,
-  title: 'Software Architecture Intern',
-  company: 'DeepLeaf',
-  location: 'Morocco',
-  period: 'Jul 2025 - Sep 2025',
-  type: 'internship',
-  description: [
-    'Contributed to the strategic migration of a monolithic API to a scalable microservices architecture to meet B2B/B2G demands.',
-    'Designed and developed a high-performance Usage Log microservice using FastAPI, exposing both REST and gRPC APIs.',
-    'Engineered a specialized data layer with TimescaleDB for time-series data and PostGIS for complex geospatial analysis.',
-    'Implemented advanced features including multi-dimensional filtering and efficient keyset pagination to optimize performance over large datasets.'
-  ],
-  technologies: ['Microservices', 'FastAPI', 'gRPC', 'TimescaleDB', 'PostGIS', 'Docker', 'SQLAlchemy', 'Alembic']
-}
+  },
 ];
