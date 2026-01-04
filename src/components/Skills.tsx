@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { skills, SkillCategory } from '../data/skills';
-import { LucideIcon, Code2 } from 'lucide-react';
+import { LucideIcon, Code2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Skills: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<SkillCategory | 'all'>('all');
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const categories: Array<{ key: SkillCategory | 'all'; label: string; icon: string }> = [
     { key: 'all', label: 'All Skills', icon: '✨' },
@@ -20,12 +21,27 @@ const Skills: React.FC = () => {
     ? skills
     : skills.filter(skill => skill.category === activeCategory);
 
+  // Skills to display
+  const displaySkills = filteredSkills;
+
   const getSkillLevel = (level: number): { text: string; color: string; bgColor: string } => {
     if (level >= 85) return { text: 'Expert', color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-100 dark:bg-green-900/30' };
     if (level >= 70) return { text: 'Advanced', color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-100 dark:bg-blue-900/30' };
     if (level >= 55) return { text: 'Proficient', color: 'text-purple-600 dark:text-purple-400', bgColor: 'bg-purple-100 dark:bg-purple-900/30' };
     if (level >= 40) return { text: 'Intermediate', color: 'text-orange-600 dark:text-orange-400', bgColor: 'bg-orange-100 dark:bg-orange-900/30' };
     return { text: 'Learning', color: 'text-gray-600 dark:text-gray-400', bgColor: 'bg-gray-100 dark:bg-gray-700' };
+  };
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -81,8 +97,8 @@ const Skills: React.FC = () => {
               key={category.key}
               onClick={() => setActiveCategory(category.key)}
               className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 border ${activeCategory === category.key
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600'
+                ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600'
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -96,72 +112,89 @@ const Skills: React.FC = () => {
           ))}
         </motion.div>
 
-        {/* Skills Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
-        >
-          {filteredSkills.map((skill, index) => {
-            const Icon = skill.icon as LucideIcon;
-            const levelInfo = getSkillLevel(skill.level);
-            const isHovered = hoveredSkill === skill.name;
+        {/* Skills Carousel */}
+        <div className="relative">
+          {/* Navigation Arrows */}
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 -ml-6"
+          >
+            <ChevronLeft size={24} />
+          </button>
 
-            return (
-              <motion.div
-                key={skill.name}
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, delay: index * 0.03 }}
-                onMouseEnter={() => setHoveredSkill(skill.name)}
-                onMouseLeave={() => setHoveredSkill(null)}
-                className="group"
-              >
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 -mr-6"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          {/* Gradient Overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white dark:from-gray-900 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white dark:from-gray-900 to-transparent z-10 pointer-events-none" />
+
+          {/* Carousel Container */}
+          <div
+            ref={carouselRef}
+            className="flex gap-4 overflow-x-hidden py-4 px-4 scroll-smooth"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {displaySkills.map((skill, index) => {
+              const Icon = skill.icon as LucideIcon;
+              const levelInfo = getSkillLevel(skill.level);
+
+              return (
                 <motion.div
-                  className="relative h-full bg-white dark:bg-gray-800 rounded-2xl p-5 text-center border border-gray-200 dark:border-gray-700 shadow-md"
-                  whileHover={{ y: -8, scale: 1.02 }}
+                  key={`${skill.name}-${index}`}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
+                  onMouseEnter={() => setHoveredSkill(`${skill.name}-${index}`)}
+                  onMouseLeave={() => setHoveredSkill(null)}
+                  className="group flex-shrink-0"
                 >
-                  {/* Icon container */}
                   <motion.div
-                    className="w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${skill.color}15` }}
-                    whileHover={{ rotate: 10, scale: 1.1 }}
+                    className="relative w-36 h-36 bg-white dark:bg-gray-800 rounded-2xl p-4 text-center border border-gray-200 dark:border-gray-700 shadow-md cursor-pointer flex flex-col items-center justify-center"
+                    whileHover={{ y: -8, scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <Icon
-                      size={28}
-                      style={{ color: skill.color }}
-                    />
-                  </motion.div>
-
-                  {/* Skill name */}
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm">
-                    {skill.name}
-                  </h4>
-
-                  {/* Skill level badge */}
-                  <span className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${levelInfo.bgColor} ${levelInfo.color}`}>
-                    {levelInfo.text}
-                  </span>
-
-                  {/* Progress indicator (visible on hover) */}
-                  <motion.div
-                    className="absolute bottom-2 left-2 right-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
+                    {/* Icon container */}
                     <motion.div
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: skill.color }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
+                      className="w-12 h-12 mx-auto mb-2 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: `${skill.color}15` }}
+                      whileHover={{ rotate: 10, scale: 1.1 }}
+                    >
+                      <Icon
+                        size={24}
+                        style={{ color: skill.color }}
+                      />
+                    </motion.div>
+
+                    {/* Skill name */}
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm truncate">
+                      {skill.name}
+                    </h4>
+
+
+
+                    {/* Progress indicator (visible on hover) */}
+                    <motion.div
+                      className="absolute bottom-2 left-2 right-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ backgroundColor: skill.color }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${skill.level}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      />
+                    </motion.div>
                   </motion.div>
                 </motion.div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Stats Summary */}
         <motion.div

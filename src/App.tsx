@@ -6,6 +6,7 @@ import About from './components/About';
 import Projects from './components/Projects';
 import ProjectDetail from './components/ProjectDetail';
 import Skills from './components/Skills';
+import Badges from './components/Badges';
 import Experience from './components/Experience';
 import Education from './components/Education';
 import Contact from './components/Contact';
@@ -25,6 +26,7 @@ const HomePage = () => (
       <About />
       <Projects />
       <Skills />
+      <Badges />
       <Experience />
       <Education />
       <Contact />
