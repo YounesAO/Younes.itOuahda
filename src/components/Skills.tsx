@@ -136,7 +136,7 @@ const Skills: React.FC = () => {
           {/* Carousel Container */}
           <div
             ref={carouselRef}
-            className="flex gap-4 overflow-x-hidden py-4 px-4 scroll-smooth"
+            className="flex gap-4 overflow-x-hidden py-4 px-4 scroll-smooth justify-center"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {displaySkills.map((skill, index) => {
