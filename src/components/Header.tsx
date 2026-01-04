@@ -17,7 +17,7 @@ const Header: React.FC = () => {
     { label: 'About', href: '#about', icon: <User size={16} /> },
     { label: 'Projects', href: '#projects', icon: <Briefcase size={16} /> },
     { label: 'Skills', href: '#skills', icon: <Code size={16} /> },
-    { label: 'Experience', href: '#experience', icon: <GraduationCap size={16} /> },
+    { label: 'Background', href: '#education', icon: <GraduationCap size={16} /> },
     { label: 'Contact', href: '#contact', icon: <Mail size={16} /> },
   ];
 
@@ -61,8 +61,8 @@ const Header: React.FC = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? 'py-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/50 dark:border-gray-700/50'
-          : 'py-5 bg-transparent'
+        ? 'py-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/50 dark:border-gray-700/50'
+        : 'py-5 bg-transparent'
         }`}
     >
       <div className="container mx-auto px-6">
@@ -92,8 +92,8 @@ const Header: React.FC = () => {
                     handleNavClick(item.href);
                   }}
                   className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${activeSection === item.href.slice(1)
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -120,8 +120,8 @@ const Header: React.FC = () => {
             <motion.button
               onClick={toggleTheme}
               className={`p-3 rounded-xl transition-all duration-300 ${isScrolled
-                  ? 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  : 'bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-gray-800/80'
+                ? 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                : 'bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-gray-800/80'
                 }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -173,8 +173,8 @@ const Header: React.FC = () => {
             <motion.button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`lg:hidden p-3 rounded-xl transition-colors ${isScrolled
-                  ? 'bg-gray-100 dark:bg-gray-800'
-                  : 'bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm'
+                ? 'bg-gray-100 dark:bg-gray-800'
+                : 'bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm'
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -231,8 +231,8 @@ const Header: React.FC = () => {
                         handleNavClick(item.href);
                       }}
                       className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeSection === item.href.slice(1)
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                         }`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}

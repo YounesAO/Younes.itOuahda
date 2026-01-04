@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
             >
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-sm font-medium text-green-700 dark:text-green-400">
-                Available for opportunities
+                Available for Internship
               </span>
             </motion.div>
 
@@ -160,7 +160,7 @@ const Hero: React.FC = () => {
                 View My Work
               </motion.button>
               <motion.a
-                href="/resume.pdf"
+                href="/Younes_Ait_Ouahda_CV.pdf"
                 download
                 className="btn-secondary flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
@@ -224,30 +224,6 @@ const Hero: React.FC = () => {
                   />
                 </motion.div>
 
-                {/* Floating badges */}
-                <motion.div
-                  className="absolute -right-4 top-8 px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <span className="text-2xl">💻</span>
-                </motion.div>
-
-                <motion.div
-                  className="absolute -left-4 bottom-16 px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                >
-                  <span className="text-2xl">🚀</span>
-                </motion.div>
-
-                <motion.div
-                  className="absolute right-8 -bottom-4 px-4 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                >
-                  <span className="text-2xl">✨</span>
-                </motion.div>
               </div>
             </div>
           </motion.div>

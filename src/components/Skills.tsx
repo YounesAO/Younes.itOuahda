@@ -196,34 +196,7 @@ const Skills: React.FC = () => {
           </div>
         </div>
 
-        {/* Stats Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
-        >
-          {[
-            { label: 'Programming Languages', value: skills.filter(s => s.category === 'languages').length, icon: '💻' },
-            { label: 'Frontend Technologies', value: skills.filter(s => s.category === 'frontend').length, icon: '🎨' },
-            { label: 'Backend & Databases', value: skills.filter(s => s.category === 'backend').length, icon: '⚙️' },
-            { label: 'Tools & Platforms', value: skills.filter(s => s.category === 'tools').length + skills.filter(s => s.category === 'other').length, icon: '🛠️' },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 text-center border border-gray-200 dark:border-gray-700 shadow-md"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <span className="text-3xl mb-2 block">{stat.icon}</span>
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">{stat.value}+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
+
       </div>
     </section>
   );

@@ -76,7 +76,7 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden">
+    <section id="about" className="min-h-screen py-24 relative overflow-hidden flex items-center">
       {/* Background */}
       <div className="absolute inset-0 bg-white dark:bg-gray-900" />
 
@@ -92,7 +92,7 @@ const About: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="text-center mb-16"
+            className="text-center mb-5"
           >
             <motion.span
               variants={fadeIn}

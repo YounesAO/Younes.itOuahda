@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/js/analytics.js",
+            "destination": "https://cdn.matomo.cloud/itouahda.matomo.cloud/container_3WfbAl2e.js"
+        },
+        {
+            "source": "/api/matomo/:path*",
+            "destination": "https://itouahda.matomo.cloud/:path*"
+        }
+    ]
+}

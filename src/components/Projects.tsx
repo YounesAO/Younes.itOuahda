@@ -1,18 +1,35 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, ArrowRight, Layers } from 'lucide-react';
+import { Github, ExternalLink, ArrowRight, Layers, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects, ProjectCategory } from '../data/projects';
 
 const Projects: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory | 'all'>('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const projectsPerPage = 3;
 
   const filteredProjects = useMemo(() => {
     return activeCategory === 'all'
       ? projects
       : projects.filter(project => project.category.includes(activeCategory));
   }, [activeCategory]);
+
+  // Reset to first page when category changes
+  React.useEffect(() => {
+    setCurrentPage(0);
+  }, [activeCategory]);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+  const hasMultiplePages = totalPages > 1;
+
+  // Get current page projects
+  const currentProjects = useMemo(() => {
+    const start = currentPage * projectsPerPage;
+    return filteredProjects.slice(start, start + projectsPerPage);
+  }, [filteredProjects, currentPage]);
 
   const categories: Array<{ key: ProjectCategory | 'all'; label: string; icon: string }> = [
     { key: 'all', label: 'All Projects', icon: '🎯' },
@@ -32,6 +49,18 @@ const Projects: React.FC = () => {
       other: 'bg-gray-600',
     };
     return colors[cat];
+  };
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const goToPrev = () => {
+    setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
   };
 
   return (
@@ -88,8 +117,8 @@ const Projects: React.FC = () => {
               key={category.key}
               onClick={() => setActiveCategory(category.key)}
               className={`relative px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 border ${activeCategory === category.key
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600'
+                ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600'
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -104,130 +133,172 @@ const Projects: React.FC = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <motion.article
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
-                className="group"
+        <div className="relative">
+          {/* Navigation Arrows - Only show if multiple pages */}
+          {hasMultiplePages && (
+            <>
+              <button
+                onClick={goToPrev}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 -ml-6"
               >
-                <motion.div
-                  className="relative h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg"
-                  whileHover={{ y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Image Container */}
-                  <div className="relative h-56 overflow-hidden">
-                    <motion.img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                    />
+                <ChevronLeft size={24} />
+              </button>
 
-                    {/* Overlay on hover */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-6">
-                      <div className="flex gap-3">
-                        {project.githubUrl && (
-                          <motion.a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            aria-label="View source code"
+              <button
+                onClick={goToNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 -mr-6"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
+
+          <motion.div
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            <AnimatePresence mode="popLayout">
+              {currentProjects.map((project, index) => (
+                <motion.article
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  onMouseEnter={() => setHoveredProject(project.id)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                  className="group"
+                >
+                  <motion.div
+                    className="relative h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg"
+                    whileHover={{ y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {/* Image Container */}
+                    <div className="relative h-56 overflow-hidden">
+                      <motion.img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.6 }}
+                      />
+
+                      {/* Overlay on hover */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-6">
+                        <div className="flex gap-3">
+                          {project.githubUrl && (
+                            <motion.a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                              aria-label="View source code"
+                            >
+                              <Github size={20} className="text-white" />
+                            </motion.a>
+                          )}
+                          {project.liveUrl && (
+                            <motion.a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                              aria-label="View live project"
+                            >
+                              <ExternalLink size={20} className="text-white" />
+                            </motion.a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Category badges */}
+                      <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                        {project.category.map((cat) => (
+                          <span
+                            key={cat}
+                            className={`px-3 py-1 text-xs font-bold rounded-full text-white ${getCategoryColor(cat)}`}
                           >
-                            <Github size={20} className="text-white" />
-                          </motion.a>
-                        )}
-                        {project.liveUrl && (
-                          <motion.a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            aria-label="View live project"
-                          >
-                            <ExternalLink size={20} className="text-white" />
-                          </motion.a>
-                        )}
+                            {cat.toUpperCase()}
+                          </span>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Category badges */}
-                    <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                      {project.category.map((cat) => (
-                        <span
-                          key={cat}
-                          className={`px-3 py-1 text-xs font-bold rounded-full text-white ${getCategoryColor(cat)}`}
-                        >
-                          {cat.toUpperCase()}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
+                        {project.title}
+                      </h3>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
-                      {project.title}
-                    </h3>
+                      <p className="text-gray-600 dark:text-gray-400 mb-5 line-clamp-2 leading-relaxed">
+                        {project.description}
+                      </p>
 
-                    <p className="text-gray-600 dark:text-gray-400 mb-5 line-clamp-2 leading-relaxed">
-                      {project.description}
-                    </p>
+                      {/* Technologies */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.technologies.slice(0, 4).map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 4 && (
+                          <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                            +{project.technologies.length - 4}
+                          </span>
+                        )}
+                      </div>
 
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies.length > 4 && (
-                        <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                          +{project.technologies.length - 4}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* View Details Link */}
-                    <Link
-                      to={`/project/${project.id}`}
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group/link"
-                    >
-                      <span>View Project Details</span>
-                      <motion.span
-                        className="inline-block"
-                        whileHover={{ x: 5 }}
+                      {/* View Details Link */}
+                      <Link
+                        to={`/project/${project.id}`}
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group/link"
                       >
-                        <ArrowRight size={16} />
-                      </motion.span>
-                    </Link>
-                  </div>
-                </motion.div>
-              </motion.article>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                        <span>View Project Details</span>
+                        <motion.span
+                          className="inline-block"
+                          whileHover={{ x: 5 }}
+                        >
+                          <ArrowRight size={16} />
+                        </motion.span>
+                      </Link>
+                    </div>
+                  </motion.div>
+                </motion.article>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Dot Navigation */}
+          {hasMultiplePages && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex justify-center gap-3 mt-12"
+            >
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToPage(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${currentPage === index
+                      ? 'bg-blue-600 w-8'
+                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                  aria-label={`Go to page ${index + 1}`}
+                />
+              ))}
+            </motion.div>
+          )}
+        </div>
 
         {/* Empty state */}
         {filteredProjects.length === 0 && (

@@ -13,7 +13,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ThemeProvider from './contexts/ThemeContext';
 import Analytics from './components/Analytics';
-import CustomCursor from './components/ui/CustomCursor';
 import ScrollProgress from './components/ui/ScrollProgress';
 import BackToTop from './components/ui/BackToTop';
 import ParticleBackground from './components/ui/ParticleBackground';
@@ -27,7 +26,7 @@ const HomePage = () => (
       <Projects />
       <Skills />
       <Badges />
-      <Experience />
+      {/*<Experience />*/}
       <Education />
       <Contact />
     </main>
@@ -40,7 +39,6 @@ function App() {
     <ThemeProvider>
       <Router>
         <Analytics />
-        <CustomCursor />
         <ScrollProgress />
         <BackToTop />
         <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300 relative overflow-x-hidden">
