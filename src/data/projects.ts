@@ -35,87 +35,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  {
-    id: 6,
-    title: 'Agricultural BI Analysis Platform',
-    description: 'A cutting-edge business intelligence project that transforms agricultural data analysis and climate data with historical crop performance metrics to provide actionable insights for farmers and agricultural businesses. Key features include predictive analytics for crop yields, automated climate impact assessment, and interactive data visualization dashboards that help optimize farming decisions and resource allocation.',
-    image: 'https://images.pexels.com/photos/574919/pexels-photo-574919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    category: ['other'],
-    technologies: ['Talend', 'Oracle', 'Pentaho', 'ETL', 'BI', 'Data Visualization'],
-    githubUrl: 'https://www.fao.org/faostat/en/#data',
-    images: [
-      {
-        url: '/cropsarch.png',
-        caption: 'Data pipeline visualization and ETL processes'
-      },
-      {
-        url: '/crops3.png',
-        caption: 'BI dashboard showing climate impact analytics'
-      },
-      {
-        url: '/crops2.png',
-        caption: 'BI dashboard showing climate impact analytics'
-      },
-      {
-        url: '/crops1.png',
-        caption: 'BI dashboard showing climate impact analytics'
-      }
-    ],
-    sections: [
-      {
-        title: 'Project Overview',
-        content: [
-          'Developed ETL pipelines to process agricultural and climate data',
-          'Created comprehensive BI dashboards for crop yield analysis',
-          'Implemented data warehousing solutions using Oracle database',
-          'Generated automated reports using Pentaho reporting tools'
-        ]
-      },
-      {
-        title: 'Technical Implementation',
-        content: [
-          'Used Talend for data integration and transformation processes',
-          'Designed star schema database architecture for optimal querying',
-          'Created interactive dashboards with drill-down capabilities',
-          'Implemented data quality checks and validation processes'
-        ]
-      }
-    ],
-    features: [
-      'ETL data pipelines',
-      'Climate impact analysis',
-      'Crop yield predictions',
-      'Interactive BI dashboards',
-      'Automated reporting',
-      'Data quality monitoring'
-    ],
-    challenges: [
-      'Handling large volumes of agricultural data',
-      'Integrating multiple data sources',
-      'Ensuring data accuracy and consistency',
-      'Creating meaningful visualizations'
-    ],
-    learnings: [
-      'Advanced ETL techniques',
-      'Business intelligence best practices',
-      'Data warehousing concepts',
-      'Oracle database optimization'
-    ],
-    collaborators: [
-      {
-        name: 'Amina Miskar',
-        role: 'Core team Collaborator',
-        githubUrl: 'https://github.com/miskaraminaa',
-        linkedinUrl: 'http://ma.linkedin.com/in/amina-miskar-ba6864208'
-      },
-      {
-        name: 'Saifeddine Douidy',
-        role: 'Core team Collaborator',
-        githubUrl: 'https://github.com/SaifeddineDouidy',
-        linkedinUrl: 'http://ma.linkedin.com/in/saifeddine-douidy-87aa62251'
-      }
-    ]
-  },
+
   {
     id: 2,
     title: 'Vocal Pathology Detection App',
@@ -515,6 +435,87 @@ export const projects: Project[] = [
         role: 'Core team Collaborator',
         githubUrl: 'https://github.com/fatikhalil',
         linkedinUrl: 'https://www.linkedin.com/in/fatima-khalil-82679032a/'
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: 'Agricultural BI Analysis Platform',
+    description: 'A cutting-edge business intelligence project that transforms agricultural data analysis and climate data with historical crop performance metrics to provide actionable insights for farmers and agricultural businesses. Key features include predictive analytics for crop yields, automated climate impact assessment, and interactive data visualization dashboards that help optimize farming decisions and resource allocation.',
+    image: 'https://images.pexels.com/photos/574919/pexels-photo-574919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    category: ['other'],
+    technologies: ['Talend', 'Oracle', 'Pentaho', 'ETL', 'BI', 'Data Visualization'],
+    githubUrl: 'https://www.fao.org/faostat/en/#data',
+    images: [
+      {
+        url: '/cropsarch.png',
+        caption: 'Data pipeline visualization and ETL processes'
+      },
+      {
+        url: '/crops3.png',
+        caption: 'BI dashboard showing climate impact analytics'
+      },
+      {
+        url: '/crops2.png',
+        caption: 'BI dashboard showing climate impact analytics'
+      },
+      {
+        url: '/crops1.png',
+        caption: 'BI dashboard showing climate impact analytics'
+      }
+    ],
+    sections: [
+      {
+        title: 'Project Overview',
+        content: [
+          'Developed ETL pipelines to process agricultural and climate data',
+          'Created comprehensive BI dashboards for crop yield analysis',
+          'Implemented data warehousing solutions using Oracle database',
+          'Generated automated reports using Pentaho reporting tools'
+        ]
+      },
+      {
+        title: 'Technical Implementation',
+        content: [
+          'Used Talend for data integration and transformation processes',
+          'Designed star schema database architecture for optimal querying',
+          'Created interactive dashboards with drill-down capabilities',
+          'Implemented data quality checks and validation processes'
+        ]
+      }
+    ],
+    features: [
+      'ETL data pipelines',
+      'Climate impact analysis',
+      'Crop yield predictions',
+      'Interactive BI dashboards',
+      'Automated reporting',
+      'Data quality monitoring'
+    ],
+    challenges: [
+      'Handling large volumes of agricultural data',
+      'Integrating multiple data sources',
+      'Ensuring data accuracy and consistency',
+      'Creating meaningful visualizations'
+    ],
+    learnings: [
+      'Advanced ETL techniques',
+      'Business intelligence best practices',
+      'Data warehousing concepts',
+      'Oracle database optimization'
+    ],
+    collaborators: [
+      {
+        name: 'Amina Miskar',
+        role: 'Core team Collaborator',
+        githubUrl: 'https://github.com/miskaraminaa',
+        linkedinUrl: 'http://ma.linkedin.com/in/amina-miskar-ba6864208'
+      },
+      {
+        name: 'Saifeddine Douidy',
+        role: 'Core team Collaborator',
+        githubUrl: 'https://github.com/SaifeddineDouidy',
+        linkedinUrl: 'http://ma.linkedin.com/in/saifeddine-douidy-87aa62251'
       }
     ]
   }
