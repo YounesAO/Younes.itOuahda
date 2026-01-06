@@ -36,6 +36,83 @@ export interface Project {
 
 export const projects: Project[] = [
 
+
+  {
+    "id": 1,
+    "title": "EduXGame Platform",
+    "description": "EduXGame is an innovative educational platform designed to make learning engaging and effective through gamification. The platform transforms traditional education by integrating adaptive learning algorithms, interactive games, and real-time analytics. Key features include personalized learning paths, a comprehensive achievement system, progress tracking dashboards, and detailed analytics for educators. EduXGame aims to foster motivation and deeper knowledge retention for learners of all ages.",
+    "image": "/edugame.jpg",
+    "category": ['mobile', 'ai'],
+    "technologies": [
+      "Spring Boot",
+      "Android",
+      "Gamification",
+      "Educational Technology",
+      "Adaptive Learning",
+      "Analytics",
+      "TypeScript",
+      "Java"
+    ],
+    "githubUrl": "https://github.com/aya-elloubab/EduXGame",
+    "images": [
+      {
+        "url": "/edugameuis.png",
+        "caption": "Gamified learning interface"
+      },
+      {
+        "url": "/edugamearch.png",
+        "caption": "System architecture diagram"
+      }
+    ],
+    "sections": [
+      {
+        "title": "Project Overview",
+        "content": [
+          "The EduXGame platform was meticulously built using Spring Boot and Java, leveraging these technologies to provide a solid, scalable foundation for delivering engaging, gamified educational experiences. By combining robust backend architecture with innovative design, the project enables seamless integration of interactive content and real-time feedback, making learning more dynamic and enjoyable for users of all ages. This approach ensures the platform can easily grow to accommodate new features and evolving educational needs.",
+          "A dedicated Android mobile companion app extends the platform's accessibility and allows learners to engage with educational content anytime, anywhere.",
+          "Interactive educational content and challenges were implemented to keep students motivated and make learning both effective and fun.",
+          "A robust progress tracking and achievement system lets students and educators monitor performance, celebrate milestones, and identify growth areas."
+        ]
+      },
+      {
+        "title": "Technical Implementation",
+        "content": [
+          "The backend of EduXGame is powered by Spring Boot, enabling a scalable and modular architecture that supports reliable user management, content delivery, and seamless integration with the platform's front-end and mobile components. By exposing carefully designed RESTful APIs, the system ensures smooth communication and data synchronization between different parts of the application. This robust technical foundation allows for efficient handling of user requests and future expansion of features.",
+          "Gamification mechanics such as badges, leaderboards, and progress bars are integrated to foster motivation and engagement.",
+          "The Android client was developed to provide learners with mobile access, notifications, and real-time updates.",
+          "Advanced analytics are implemented to track learning progression and user engagement across the platform."
+        ]
+      }
+    ],
+    "features": [
+      "Interactive learning modules",
+      "Gamification elements and rewards",
+      "Progress and achievement tracking",
+      "Mobile companion app",
+      "Learning analytics dashboards",
+      "Personalized learning paths"
+    ],
+    "challenges": [
+      "Designing engaging UI for diverse learners",
+      "Balancing educational content with game mechanics",
+      "Synchronizing data across web and mobile platforms",
+      "Optimizing performance for real-time interactions"
+    ],
+    "learnings": [
+      "Principles of educational technology",
+      "Effective gamification strategies",
+      "Spring Boot backend development",
+      "Android mobile application development"
+    ],
+    "collaborators": [
+      {
+        name: 'Aya Elloubab',
+        role: 'Core team Collaborator',
+        githubUrl: 'https://github.com/aya-elloubab/',
+        linkedinUrl: 'https://www.linkedin.com/in/aya-elloubab-22b3312b0/'
+      }
+    ]
+  },
   {
     id: 2,
     title: 'Vocal Pathology Detection App',
@@ -192,82 +269,6 @@ export const projects: Project[] = [
         role: 'Core team Collaborator',
         githubUrl: 'https://github.com/yaelaya/',
         linkedinUrl: 'http://ma.linkedin.com/in/aya-el-abidi-118b36305'
-      }
-    ]
-  },
-  {
-    "id": 1,
-    "title": "EduXGame Platform",
-    "description": "EduXGame is an innovative educational platform designed to make learning engaging and effective through gamification. The platform transforms traditional education by integrating adaptive learning algorithms, interactive games, and real-time analytics. Key features include personalized learning paths, a comprehensive achievement system, progress tracking dashboards, and detailed analytics for educators. EduXGame aims to foster motivation and deeper knowledge retention for learners of all ages.",
-    "image": "/edugame.jpg",
-    "category": ['mobile', 'ai'],
-    "technologies": [
-      "Spring Boot",
-      "Android",
-      "Gamification",
-      "Educational Technology",
-      "Adaptive Learning",
-      "Analytics",
-      "TypeScript",
-      "Java"
-    ],
-    "githubUrl": "https://github.com/aya-elloubab/EduXGame",
-    "images": [
-      {
-        "url": "/edugameuis.png",
-        "caption": "Gamified learning interface"
-      },
-      {
-        "url": "/edugamearch.png",
-        "caption": "System architecture diagram"
-      }
-    ],
-    "sections": [
-      {
-        "title": "Project Overview",
-        "content": [
-          "The EduXGame platform was meticulously built using Spring Boot and Java, leveraging these technologies to provide a solid, scalable foundation for delivering engaging, gamified educational experiences. By combining robust backend architecture with innovative design, the project enables seamless integration of interactive content and real-time feedback, making learning more dynamic and enjoyable for users of all ages. This approach ensures the platform can easily grow to accommodate new features and evolving educational needs.",
-          "A dedicated Android mobile companion app extends the platform's accessibility and allows learners to engage with educational content anytime, anywhere.",
-          "Interactive educational content and challenges were implemented to keep students motivated and make learning both effective and fun.",
-          "A robust progress tracking and achievement system lets students and educators monitor performance, celebrate milestones, and identify growth areas."
-        ]
-      },
-      {
-        "title": "Technical Implementation",
-        "content": [
-          "The backend of EduXGame is powered by Spring Boot, enabling a scalable and modular architecture that supports reliable user management, content delivery, and seamless integration with the platform's front-end and mobile components. By exposing carefully designed RESTful APIs, the system ensures smooth communication and data synchronization between different parts of the application. This robust technical foundation allows for efficient handling of user requests and future expansion of features.",
-          "Gamification mechanics such as badges, leaderboards, and progress bars are integrated to foster motivation and engagement.",
-          "The Android client was developed to provide learners with mobile access, notifications, and real-time updates.",
-          "Advanced analytics are implemented to track learning progression and user engagement across the platform."
-        ]
-      }
-    ],
-    "features": [
-      "Interactive learning modules",
-      "Gamification elements and rewards",
-      "Progress and achievement tracking",
-      "Mobile companion app",
-      "Learning analytics dashboards",
-      "Personalized learning paths"
-    ],
-    "challenges": [
-      "Designing engaging UI for diverse learners",
-      "Balancing educational content with game mechanics",
-      "Synchronizing data across web and mobile platforms",
-      "Optimizing performance for real-time interactions"
-    ],
-    "learnings": [
-      "Principles of educational technology",
-      "Effective gamification strategies",
-      "Spring Boot backend development",
-      "Android mobile application development"
-    ],
-    "collaborators": [
-      {
-        name: 'Aya Elloubab',
-        role: 'Core team Collaborator',
-        githubUrl: 'https://github.com/aya-elloubab/',
-        linkedinUrl: 'https://www.linkedin.com/in/aya-elloubab-22b3312b0/'
       }
     ]
   },
