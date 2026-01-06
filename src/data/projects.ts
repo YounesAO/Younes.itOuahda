@@ -36,7 +36,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 1,
+    id: 6,
     title: 'Agricultural BI Analysis Platform',
     description: 'A cutting-edge business intelligence project that transforms agricultural data analysis and climate data with historical crop performance metrics to provide actionable insights for farmers and agricultural businesses. Key features include predictive analytics for crop yields, automated climate impact assessment, and interactive data visualization dashboards that help optimize farming decisions and resource allocation.',
     image: 'https://images.pexels.com/photos/574919/pexels-photo-574919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -276,7 +276,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    "id": 4,
+    "id": 1,
     "title": "EduXGame Platform",
     "description": "EduXGame is an innovative educational platform designed to make learning engaging and effective through gamification. The platform transforms traditional education by integrating adaptive learning algorithms, interactive games, and real-time analytics. Key features include personalized learning paths, a comprehensive achievement system, progress tracking dashboards, and detailed analytics for educators. EduXGame aims to foster motivation and deeper knowledge retention for learners of all ages.",
     "image": "/edugame.jpg",
@@ -422,7 +422,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    id: 6,
+    id: 4,
     title: 'IoT Smart Cane for Elderly and Visually Impaired',
     description: 'An innovative IoT-enabled smart cane designed to enhance safety and independence for elderly individuals and visually impaired users. The device integrates multiple sensors including ultrasonic sensors for obstacle detection, an MPU6050 accelerometer/gyroscope for fall detection, and ESP32 for connectivity. The system provides real-time alerts to caregivers, GPS tracking for emergency situations, and secure Bluetooth Low Energy communication. This wearable IoT solution addresses critical mobility challenges while ensuring user safety through intelligent monitoring and automated emergency response capabilities.',
     image: '/banneriot.png',
