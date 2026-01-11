@@ -64,7 +64,7 @@ const About: React.FC = () => {
       bgColor: "bg-orange-100 dark:bg-orange-900/30",
       title: "Problem Solver",
       description: "I love tackling complex challenges and turning them into elegant, efficient solutions.",
-      link: "#experience",
+      link: "#education",
       stats: "4+ Internships"
     }
   ];

@@ -16,6 +16,7 @@ import Analytics from './components/Analytics';
 import ScrollProgress from './components/ui/ScrollProgress';
 import BackToTop from './components/ui/BackToTop';
 import ParticleBackground from './components/ui/ParticleBackground';
+import Pocs from './components/Pocs';
 
 const HomePage = () => (
   <>
@@ -51,6 +52,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
+            <Route path="/pocs" element={<Pocs />} />
           </Routes>
         </div>
       </Router>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun, Home, User, Briefcase, Code, GraduationCap, Mail } from 'lucide-react';
+import { Menu, X, Moon, Sun, Home, User, Briefcase, Code, GraduationCap, Mail, Rocket } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLocation, Link } from 'react-router-dom';
@@ -154,19 +154,28 @@ const Header: React.FC = () => {
 
             {/* CTA Button (Desktop) */}
             {isHomePage && (
-              <motion.a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick('#contact');
+              <Link
+                to="/pocs"
+                className="relative hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg transition-all duration-300 group overflow-hidden animate-[glow_2s_ease-in-out_infinite]"
+                style={{
+                  animation: 'glow 2s ease-in-out infinite'
                 }}
-                className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
               >
-                <Mail size={16} />
-                Let's Talk
-              </motion.a>
+                <Rocket size={16} className="relative z-10" />
+                <span className="relative z-10">POCs</span>
+                {/* Inner shimmer effect */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_ease-in-out_infinite]" />
+                <style>{`
+                  @keyframes glow {
+                    0%, 100% { box-shadow: 0 0 5px rgba(147, 51, 234, 0.5), 0 0 10px rgba(59, 130, 246, 0.3); }
+                    50% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.8), 0 0 25px rgba(59, 130, 246, 0.5); }
+                  }
+                  @keyframes shimmer {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(100%); }
+                  }
+                `}</style>
+              </Link>
             )}
 
             {/* Mobile Menu Button */}
