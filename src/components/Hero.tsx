@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
             >
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-sm font-medium text-green-700 dark:text-green-400">
-                Available for Internship
+                Available for junior roles
               </span>
             </motion.div>
 
