@@ -23,6 +23,13 @@ export const education: EducationItem[] = [
     description: 'Completed a technical degree in Computer Engineering with strong foundation in programming, databases, and software development methodologies.',
     type: 'education',
   },
+    {
+    title: 'Software Engineering Intern (PFE)',
+    organization: 'DeepLeaf (Morocco)',
+    period: 'Feb 2026 - Jul 2026',
+    description: 'Contributed to building a multimodal AI voice agent (Say.ag), engineering conversational workflows and tool-calling capabilities using LiveKit and Gemini on Vertex AI. Engineered backend services (Portal.io) using Django, PostgreSQL/PostGIS, and Docker on GCP, exposing specialized agent tools for dosage calculation, treatment lookup, and nearby store location.',
+    type: 'work',
+  },
   {
     title: 'Software Architecture Intern',
     organization: 'DeepLeaf (Morocco)',
